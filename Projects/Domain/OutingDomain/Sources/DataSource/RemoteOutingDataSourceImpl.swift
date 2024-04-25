@@ -8,4 +8,11 @@ public final class RemoteOutingDataSourceImpl: BaseRemoteDataSource<OutingAPI>, 
             .map { $0.toDomain() }
             .eraseToAnyPublisher()
     }
+
+    public func fetchOutingAvailableTime(dayOfWeek: String) -> AnyPublisher<[OutingEntity], Error> {
+        request(.fetchOutingAvailableTime(dayOfWeek: dayOfWeek), dto: FetchOutingAvailableTimeListResponseDTO.self)
+            .map { $0.toDomain() }
+            .eraseToAnyPublisher()
+    }
+
 }
