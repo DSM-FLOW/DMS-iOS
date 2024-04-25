@@ -18,15 +18,10 @@ public final class OutingApplyComponent: Component<OutingApplyDependency>, Outin
         OutingApplyView(
             viewModel: .init(
                 fetchOutingAvailableTimeUseCase: dependency.fetchOutingAvailableTimeUseCase,
-
                 fetchMyOutingApplicationItemUseCase: dependency.fetchMyOutingApplicationItemUseCase,
-
                 fetchOutingTypeUseCase: dependency.fetchOutingTypeUseCase,
-
                 deleteOutingApplicationItemUseCase: dependency.deleteOutingApplicationItemUseCase,
-
                 fetchAllStudentUseCase: dependency.fetchAllStudentUseCase,
-
                 outingApplicationUseCase: dependency.outingApplicationUseCase
             )
         )

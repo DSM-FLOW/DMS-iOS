@@ -147,7 +147,6 @@ struct OutingApplyView: View {
                                         viewModel.errorMessage = "필수 입력 항목을 확인해주세요."
                                     }
                                 }
-                                )
                             } message: {
                                 Text("외출을 신청하시겠습니까?")
                                     .dmsFont(.body(.body2), color: .GrayScale.gray6)
