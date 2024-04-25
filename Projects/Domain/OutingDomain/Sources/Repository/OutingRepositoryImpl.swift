@@ -8,7 +8,7 @@ public struct OutingRepositoryImpl: OutingRepository {
         self.remoteOutingDataSource = remoteOutingDataSource
     }
 
-    public func fetchMyOutingApplicationItem() -> AnyPublisher<Void, Error> {
+    public func fetchMyOutingApplicationItem() -> AnyPublisher<MyOutingApplicationItemEntity, Error> {
         remoteOutingDataSource.fetchMyOutingApplicationItem()
     }
 }

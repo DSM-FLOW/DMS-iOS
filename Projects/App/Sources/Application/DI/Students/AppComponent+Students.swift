@@ -69,4 +69,10 @@ public extension AppComponent {
             WithdrawalUseCaseImpl(studentsRepository: studentsRepository)
         }
     }
+
+    var fetchAllStudentUseCase: any FetchAllStudentUseCase {
+        shared {
+            FetchAllStudentUseCaseImpl(studentsRepository: studentsRepository)
+        }
+    }
 }
