@@ -5,18 +5,18 @@ struct OutingApplyTextField: View {
     @State var title: String
     var placeholder: String
     @Binding var text: String
-    var status: Bool?
+    var isStatus: Bool?
 
     public init(
         _ title: String = "",
         _ placeholder: String = "",
         _ text: Binding<String>,
-        _ status: Bool? = false
+        _ isStatus: Bool? = false
     ) {
         self.title = title
         self.placeholder = placeholder
         _text = text
-        self.status = status
+        self.isStatus = isStatus
     }
 
     var body: some View {
