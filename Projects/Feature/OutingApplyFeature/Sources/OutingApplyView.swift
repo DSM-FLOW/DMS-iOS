@@ -139,9 +139,7 @@ struct OutingApplyView: View {
                             }
                             .alert("", isPresented: $viewModel.isPresentedOutingApplicationItemAlert) {
                                 Button("취소", role: .cancel) {}
-                                Button("확인",
-                                       role: .destructive,
-                                       action: {
+                                Button("확인", role: .destructive) {
                                     if viewModel.outingApplicationTimeStatus && viewModel.outingTypeTitleApplicationStatus {
                                         viewModel.confirmOutingApplicationItemButtonDidClicked()
                                     } else {

@@ -50,16 +50,16 @@ struct OutingTimePickerView: View {
                 .pickerStyle(.inline)
             }
             .padding(.horizontal, 6)
-            DMSWideButton(text: "확인", color: .PrimaryVariant.primary, action: {
+            DMSWideButton(text: "확인", color: .PrimaryVariant.primary) {
                 viewModel.outingHourSelectTime = outingHourSelectTime + 1
                 viewModel.outingMinuteSelectTime = outingMinuteSelectTime
                 viewModel.arrivalHourSelectTime = arrivalHourSelectTime + 1
                 viewModel.arrivalMinuteSelectTime = arrivalMinuteSelectTime
                 timeText = viewModel.outingApplicationTime
                 viewModel.outingApplicationTimeStatus = true
-            })
-                .padding(.top, 30)
-                .padding(.horizontal, 24)
+            }
+            .padding(.top, 30)
+            .padding(.horizontal, 24)
         }
     }
 }

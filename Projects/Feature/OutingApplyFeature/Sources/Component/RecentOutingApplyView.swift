@@ -57,10 +57,9 @@ struct RecentOutingApplyView: View {
                 }
                 .alert("", isPresented: $viewModel.isPresentedDeleteOutingApplicationItemAlert) {
                     Button("취소", role: .cancel) {}
-                    Button("확인",
-                           role: .destructive,
-                           action: viewModel.confirmDeleteOutingApplicationItemButtonDidClicked
-                    )
+                    Button("확인", role: .destructive) {
+                        viewModel.confirmDeleteOutingApplicationItemButtonDidClicked
+                    }
                 } message: {
                     Text("외출 신청을 취소하시겠습니까?")
                         .dmsFont(.body(.body2), color: .GrayScale.gray6)
