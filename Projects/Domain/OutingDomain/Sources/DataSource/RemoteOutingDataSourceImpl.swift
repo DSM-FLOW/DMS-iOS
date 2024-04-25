@@ -21,4 +21,9 @@ public final class RemoteOutingDataSourceImpl: BaseRemoteDataSource<OutingAPI>, 
             .eraseToAnyPublisher()
     }
 
+    public func deleteOutingApplicationItem(id: String) -> AnyPublisher<Void, Error> {
+        request(.deleteOutingApplicationItem(id: id))
+            .eraseToAnyPublisher()
+    }
+
 }

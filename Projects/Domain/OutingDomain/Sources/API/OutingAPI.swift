@@ -6,6 +6,7 @@ public enum OutingAPI {
     case fetchMyOutingApplicationItem
     case fetchOutingAvailableTime(dayOfWeek: String)
     case fetchOutingType
+    case deleteOutingApplicationItem(id: String)
 }
 
 extension OutingAPI: DmsAPI {
@@ -26,12 +27,17 @@ extension OutingAPI: DmsAPI {
         case .fetchOutingType:
             return "/types"
 
+        case .deleteOutingApplicationItem(id: let id):
+            return "/\(id)"
+
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .fetchMyOutingApplicationItem:
+        case .deleteOutingApplicationItem:
+            return .delete
+
             return .get
         }
     }
