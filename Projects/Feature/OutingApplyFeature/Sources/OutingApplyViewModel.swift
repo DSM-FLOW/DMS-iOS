@@ -62,8 +62,6 @@ final class OutingApplyViewModel: BaseViewModel {
 
     ///fetchAllStudentUseCase
     @Published var studentName = ""
-    @Published var gradeClassNumber = ""
-    @Published var profileImageURL = URL(string: "")
     @Published var students: [AllStudentEntity] = []
 
     @Published var myOutingApplicationItem: MyOutingApplicationItemEntity?
@@ -172,12 +170,6 @@ final class OutingApplyViewModel: BaseViewModel {
         ) { [weak self] students in
             self?.students = students
         }
-
-        self.students.map { info in
-            studentName = info.name
-            gradeClassNumber = info.gradeClassNumber
-            profileImageURL = info.profileImageURL
-        }
     }
 
     func deleteOutingApplicationItemButtonDidClicked() {
@@ -224,12 +216,6 @@ final class OutingApplyViewModel: BaseViewModel {
             )
         ) { [weak self] students in
             self?.students = students
-        }
-
-        self.students.map { info in
-            studentName = info.name
-            gradeClassNumber = info.gradeClassNumber
-            profileImageURL = info.profileImageURL
         }
     }
 }
