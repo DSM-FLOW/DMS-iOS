@@ -27,7 +27,7 @@ struct OutingApplyTextField: View {
                     .padding(.leading, 1)
                     .padding(.bottom, 8)
 
-                if self.status ?? false {
+                if self.isStatus ?? false {
                     Text("*")
                         .dmsFont(.body(.body3), color: .PrimaryVariant.primary)
                 }
