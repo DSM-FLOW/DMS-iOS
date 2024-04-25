@@ -5,4 +5,5 @@ public protocol RemoteOutingDataSource {
     func fetchOutingAvailableTime(dayOfWeek: String) -> AnyPublisher<[OutingEntity], Error>
     func fetchOutingType() -> AnyPublisher<OutingTypeEntity, Error>
     func deleteOutingApplicationItem(id: String) -> AnyPublisher<Void, Error>
+    func outingApplication(req: OutingApplicationRequestDTO) -> AnyPublisher<OutingApplicationEntity, Error>
 }

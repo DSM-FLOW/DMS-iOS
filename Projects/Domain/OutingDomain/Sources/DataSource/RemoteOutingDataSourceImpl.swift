@@ -26,4 +26,9 @@ public final class RemoteOutingDataSourceImpl: BaseRemoteDataSource<OutingAPI>, 
             .eraseToAnyPublisher()
     }
 
+    public func outingApplication(req: OutingApplicationRequestDTO) -> AnyPublisher<OutingApplicationEntity, Error> {
+        request(.outingApplication(req), dto: OutingApplicationResponseDTO.self)
+            .map { $0.toDomain() }
+            .eraseToAnyPublisher()
+    }
 }

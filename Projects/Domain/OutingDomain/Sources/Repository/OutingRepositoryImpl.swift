@@ -16,7 +16,15 @@ public struct OutingRepositoryImpl: OutingRepository {
         remoteOutingDataSource.fetchOutingAvailableTime(dayOfWeek: dayOfWeek)
     }
 
+    public func fetchOutingType() -> AnyPublisher<OutingTypeEntity, Error> {
+        remoteOutingDataSource.fetchOutingType()
+    }
+
     public func deleteOutingApplicationItem(id: String) -> AnyPublisher<Void, Error> {
         remoteOutingDataSource.deleteOutingApplicationItem(id: id)
     }
 
+    public func outingApplication(req: OutingApplicationRequestDTO) -> AnyPublisher<OutingApplicationEntity, Error> {
+        remoteOutingDataSource.outingApplication(req: req)
+    }
+}

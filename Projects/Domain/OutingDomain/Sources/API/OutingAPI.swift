@@ -7,6 +7,7 @@ public enum OutingAPI {
     case fetchOutingAvailableTime(dayOfWeek: String)
     case fetchOutingType
     case deleteOutingApplicationItem(id: String)
+    case outingApplication(OutingApplicationRequestDTO)
 }
 
 extension OutingAPI: DmsAPI {
@@ -30,6 +31,8 @@ extension OutingAPI: DmsAPI {
         case .deleteOutingApplicationItem(id: let id):
             return "/\(id)"
 
+        case .outingApplication:
+            return ""
         }
     }
 
@@ -38,6 +41,10 @@ extension OutingAPI: DmsAPI {
         case .deleteOutingApplicationItem:
             return .delete
 
+        case .outingApplication:
+            return .post
+
+        default:
             return .get
         }
     }
@@ -49,6 +56,8 @@ extension OutingAPI: DmsAPI {
                 "dayOfWeek": dayOfWeek
             ], encoding: URLEncoding.queryString)
 
+        case let .outingApplication(req):
+            return .requestJSONEncodable(req)
 
         default:
             return .requestPlain
