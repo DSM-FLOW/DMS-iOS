@@ -5,6 +5,7 @@ import Moya
 public enum OutingAPI {
     case fetchMyOutingApplicationItem
     case fetchOutingAvailableTime(dayOfWeek: String)
+    case fetchOutingType
 }
 
 extension OutingAPI: DmsAPI {
@@ -21,6 +22,9 @@ extension OutingAPI: DmsAPI {
 
         case .fetchOutingAvailableTime:
             return "/available-time"
+
+        case .fetchOutingType:
+            return "/types"
 
         }
     }

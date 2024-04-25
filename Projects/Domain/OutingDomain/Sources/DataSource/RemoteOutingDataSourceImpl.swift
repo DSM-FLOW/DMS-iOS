@@ -15,4 +15,10 @@ public final class RemoteOutingDataSourceImpl: BaseRemoteDataSource<OutingAPI>, 
             .eraseToAnyPublisher()
     }
 
+    public func fetchOutingType() -> AnyPublisher<OutingTypeEntity, Error> {
+        request(.fetchOutingType, dto: FetchOutingTypeResponseDTO.self)
+            .map { $0.toDomain() }
+            .eraseToAnyPublisher()
+    }
+
 }
