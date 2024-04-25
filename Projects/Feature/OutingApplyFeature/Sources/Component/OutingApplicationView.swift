@@ -26,11 +26,13 @@ struct OutingApplyTextField: View {
                     .dmsFont(.body(.body2), color: .GrayScale.gray10)
                     .padding(.leading, 1)
                     .padding(.bottom, 8)
+
                 if self.status ?? false {
                     Text("*")
                         .dmsFont(.body(.body3), color: .PrimaryVariant.primary)
                 }
             }
+
             DMSFormTextField(placeholder, text: $text)
         }
     }
