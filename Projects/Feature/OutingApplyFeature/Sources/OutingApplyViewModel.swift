@@ -8,11 +8,11 @@ final class OutingApplyViewModel: BaseViewModel {
     @Published var isPresentedDeleteOutingApplicationItemAlert = false
     @Published var isPresentedOutingApplicationItemAlert = false
 
-    // 필수 사항 Status
+    /// 필수 사항 Status
     @Published var outingApplicationTimeStatus = false
     @Published var outingTypeTitleApplicationStatus = false
 
-    // TimeSelect 변수
+    /// TimeSelect 변수
     @Published var outingHourSelectTime = 0
     @Published var outingMinuteSelectTime = 0
     @Published var arrivalHourSelectTime = 0
@@ -21,7 +21,7 @@ final class OutingApplyViewModel: BaseViewModel {
         return "\(outingHourSelectTime):\(outingMinuteSelectTime) ~ \(arrivalHourSelectTime):\(arrivalMinuteSelectTime)"
     }
 
-    // AvailableTime
+    /// AvailableTime
     @Published var outingAvailableTime: [OutingEntity] = []
     var currentDayOfWeek: String {
         let date = Date()
@@ -48,7 +48,7 @@ final class OutingApplyViewModel: BaseViewModel {
             }
         }
 
-    // MyOutingApplicationItem
+    /// MyOutingApplicationItem
     @Published var outingTypeTitle = ""
     @Published var outingDate = ""
     @Published var startTime = ""
@@ -57,10 +57,10 @@ final class OutingApplyViewModel: BaseViewModel {
     @Published var outingReason = ""
     @Published var outingId = ""
 
-    //fetchOutingTypeUseCase
+    ///fetchOutingTypeUseCase
     @Published var outingTypeTitles: [String] = []
 
-    //fetchAllStudentUseCase
+    ///fetchAllStudentUseCase
     @Published var studentName = ""
     @Published var gradeClassNumber = ""
     @Published var profileImageURL = URL(string: "")
@@ -77,7 +77,7 @@ final class OutingApplyViewModel: BaseViewModel {
     @Published var isShowingBottomSheet: Bool = false
     @Published var isShowingOutingTimePickerBottomSheet: Bool = false
 
-    // OutingApplication
+    /// OutingApplication
     @Published var isSuccessOutingApplication = false
     @Published var outingApplicationDate: String = Date().toOutingApplicationDMSDateString()
     var outingApplicationTimeDate: String {
