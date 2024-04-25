@@ -90,10 +90,29 @@ public extension Date {
         return formatter.string(from: self)
     }
 
+    func dayOfWeekUpper() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE"
+        return formatter.string(from: self).uppercased()
+    }
+
     func customFormat(_ format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         formatter.locale = Locale(identifier: "ko_kr")
+        return formatter.string(from: self)
+    }
+
+    func toDMSOutingApplicationString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd (E)"
+        formatter.locale = Locale(identifier: "ko_kr")
+        return formatter.string(from: self)
+    }
+
+    func toOutingApplicationDMSDateString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: self)
     }
 }
