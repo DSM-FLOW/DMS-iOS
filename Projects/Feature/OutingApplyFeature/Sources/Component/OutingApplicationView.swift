@@ -5,18 +5,18 @@ struct OutingApplyTextField: View {
     @State var title: String
     var placeholder: String
     @Binding var text: String
-    var isStatus: Bool?
+    var isRequired: Bool?
 
     public init(
         _ title: String = "",
         _ placeholder: String = "",
         _ text: Binding<String>,
-        _ isStatus: Bool? = false
+        _ isRequired: Bool? = false
     ) {
         self.title = title
         self.placeholder = placeholder
         _text = text
-        self.isStatus = isStatus
+        self.isRequired = isRequired
     }
 
     var body: some View {
@@ -27,7 +27,7 @@ struct OutingApplyTextField: View {
                     .padding(.leading, 1)
                     .padding(.bottom, 8)
 
-                if self.isStatus ?? false {
+                if self.isRequired ?? false {
                     Text("*")
                         .dmsFont(.body(.body3), color: .PrimaryVariant.primary)
                 }
