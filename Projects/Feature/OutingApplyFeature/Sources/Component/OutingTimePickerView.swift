@@ -27,7 +27,7 @@ struct OutingTimePickerView: View {
                         ForEach(1 ..< 25) { num in
                             Text("\(num)")
                                 .dmsFont(.body(.body1), color: .GrayScale.gray10)
-                                .padding(.horizontal, 8)
+                                .padding(.horizontal, 6)
                         }
                     }
                     .pickerStyle(.inline)
@@ -39,7 +39,7 @@ struct OutingTimePickerView: View {
                         ForEach(0 ..< 60) { num in
                             Text("\(num)")
                                 .dmsFont(.body(.body1), color: .GrayScale.gray10)
-                                .padding(.horizontal, 8)
+                                .padding(.horizontal, 6)
                         }
                     }
                     .pickerStyle(.inline)
@@ -56,7 +56,7 @@ struct OutingTimePickerView: View {
                         ForEach(1 ..< 25) { num in
                             Text("\(num)")
                                 .dmsFont(.body(.body1), color: .GrayScale.gray10)
-                                .padding(.horizontal, 8)
+                                .padding(.horizontal, 6)
                         }
                     }
                     .listRowBackground(Color.clear)
@@ -68,7 +68,7 @@ struct OutingTimePickerView: View {
                         ForEach(0 ..< 60) { num in
                             Text("\(num)")
                                 .dmsFont(.body(.body1), color: .GrayScale.gray10)
-                                .padding(.horizontal, 8)
+                                .padding(.horizontal, 6)
                         }
                     }
                     .listRowBackground(Color.clear)
