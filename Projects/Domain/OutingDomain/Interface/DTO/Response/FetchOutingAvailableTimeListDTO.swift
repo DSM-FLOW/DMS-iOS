@@ -1,9 +1,9 @@
 import Foundation
 
 public struct FetchOutingAvailableTimeListResponseDTO: Decodable {
-    public let outingAvailableTimes: [SingleOutingAvailableTimeResponseDTO]
+    public let times: [SingleOutingAvailableTimeResponseDTO]
 
     enum CodingKeys: String, CodingKey {
-        case outingAvailableTimes = "outing_available_times"
+        case times = "outing_available_times"
     }
 }

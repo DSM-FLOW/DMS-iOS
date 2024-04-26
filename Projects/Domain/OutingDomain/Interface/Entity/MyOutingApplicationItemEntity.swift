@@ -3,30 +3,30 @@ import Foundation
 public struct MyOutingApplicationItemEntity: Equatable, Hashable {
     public init(
         id: UUID,
-        outingDate: String,
-        outingTypeTitle: String,
+        date: String,
+        titleType: String,
         status: String,
         outingTime: String,
         arrivalTime: String,
         reason: String?,
-        outingCompanions: [String]
+        companions: [String]
     ) {
         self.id = id
-        self.outingDate = outingDate
-        self.outingTypeTitle = outingTypeTitle
+        self.date = date
+        self.titleType = titleType
         self.status = status
         self.outingTime = outingTime
         self.arrivalTime = arrivalTime
         self.reason = reason
-        self.outingCompanions = outingCompanions
+        self.companions = companions
     }
 
     public let id: UUID
-    public let outingDate: String
-    public let outingTypeTitle: String
+    public let date: String
+    public let titleType: String
     public let status: String
     public let outingTime: String
     public let arrivalTime: String
     public let reason: String?
-    public let outingCompanions: [String]
+    public let companions: [String]
 }

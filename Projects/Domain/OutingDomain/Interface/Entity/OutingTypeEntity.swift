@@ -2,9 +2,9 @@ import Foundation
 
 public struct OutingTypeEntity: Equatable, Hashable {
     public init(
-        outingTypeTitle: [String]
+        titleType: [String]
     ) {
-        self.outingTypeTitle = outingTypeTitle
+        self.titleType = titleType
     }
-    public let outingTypeTitle: [String]
+    public let titleType: [String]
 }

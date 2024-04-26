@@ -137,15 +137,15 @@ final class OutingApplyViewModel: BaseViewModel {
             fetchMyOutingApplicationItemUseCase.execute()
         ) { [weak self] myOutingApplicationItem in
             var string: String?
-            myOutingApplicationItem.outingCompanions.map {
+            myOutingApplicationItem.companions.map {
                 string = (string ?? "") + $0
                 if $0 != nil {
                     string = (string ?? "") + ","
                 }
             }
             self?.outingId = "\(myOutingApplicationItem.id)"
-            self?.outingTypeTitle = myOutingApplicationItem.outingTypeTitle
-            self?.outingDate = "\(myOutingApplicationItem.outingDate)"
+            self?.outingTypeTitle = myOutingApplicationItem.titleType
+            self?.outingDate = "\(myOutingApplicationItem.date)"
             self?.startTime = myOutingApplicationItem.outingTime
             self?.endTime = myOutingApplicationItem.arrivalTime
             self?.outingCompanions = string ?? ""
@@ -160,7 +160,7 @@ final class OutingApplyViewModel: BaseViewModel {
         addCancellable(
             fetchOutingTypeUseCase.execute()
         ) { [weak self] outingType in
-            self?.outingTypeTitles = outingType.outingTypeTitle
+            self?.outingTypeTitles = outingType.titleType
         }
 
         addCancellable(
@@ -194,10 +194,10 @@ final class OutingApplyViewModel: BaseViewModel {
         addCancellable(
             outingApplicationUseCase.execute(
                 req: .init(
-                    outingDate: outingApplicationDate,
+                    date: outingApplicationDate,
                     outingTime: outingApplicationTimeDate,
                     arrivalTime: arrivalApplicationTimeDate,
-                    outingTypeTitle: outingTypeTitleApplication,
+                    titleType: outingTypeTitleApplication,
                     reason: outingReasonApplication,
                     companionIds: outingCompanionIdsApplication
                 )

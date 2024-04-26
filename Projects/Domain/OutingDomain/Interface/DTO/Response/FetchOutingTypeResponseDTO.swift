@@ -1,9 +1,9 @@
 import Foundation
 
 public struct FetchOutingTypeResponseDTO: Decodable {
-    public let outingTypeTitle: [String]
+    public let titleType: [String]
 
     enum CodingKeys: String, CodingKey {
-        case outingTypeTitle = "titles"
+        case titleType = "titles"
     }
 }
