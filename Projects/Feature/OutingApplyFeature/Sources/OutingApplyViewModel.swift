@@ -57,10 +57,10 @@ final class OutingApplyViewModel: BaseViewModel {
     @Published var outingReason = ""
     @Published var outingId = ""
 
-    ///fetchOutingTypeUseCase
+    // fetchOutingTypeUseCase
     @Published var outingTypeTitles: [String] = []
 
-    ///fetchAllStudentUseCase
+    // fetchAllStudentUseCase
     @Published var studentName = ""
     @Published var students: [AllStudentEntity] = []
 
@@ -115,8 +115,7 @@ final class OutingApplyViewModel: BaseViewModel {
         fetchAllStudentUseCase: any FetchAllStudentUseCase,
         outingApplicationUseCase: any OutingApplicationUseCase
     ) {
-        self.fetchOutingAvailableTimeUseCase =
-            fetchOutingAvailableTimeUseCase
+        self.fetchOutingAvailableTimeUseCase = fetchOutingAvailableTimeUseCase
         self.fetchMyOutingApplicationItemUseCase = fetchMyOutingApplicationItemUseCase
         self.fetchOutingTypeUseCase = fetchOutingTypeUseCase
         self.deleteOutingApplicationItemUseCase = deleteOutingApplicationItemUseCase

@@ -18,7 +18,7 @@ struct OutingApplyView: View {
     }
 
     var body: some View {
-        VStack() {
+        VStack {
             Spacer()
                 .frame(height: 1)
 
@@ -74,7 +74,6 @@ struct OutingApplyView: View {
                                 .disabled(true)
                                 .onTapGesture {
                                     viewModel.isShowingOutingTimePickerBottomSheet = true
-                                    timeText = viewModel.outingApplicationTime
                                 }
 
                             HStack(spacing: 15) {
@@ -115,7 +114,7 @@ struct OutingApplyView: View {
                                         }
                                     }
                                 }
-                                OutingApplyTextField("동행인", "동행인 추가 ﹢", $selectStudentsText, false)
+                                OutingApplyTextField("동행인", "동행인 추가 ﹢ ", $selectStudentsText, false)
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 12)
                                     .disabled(true)
@@ -140,7 +139,8 @@ struct OutingApplyView: View {
                             .alert("", isPresented: $viewModel.isPresentedOutingApplicationItemAlert) {
                                 Button("취소", role: .cancel) {}
                                 Button("확인", role: .destructive) {
-                                    if viewModel.outingApplicationTimeStatus && viewModel.outingTypeTitleApplicationStatus {
+                                    if viewModel.outingApplicationTimeStatus &&
+                                        viewModel.outingTypeTitleApplicationStatus {
                                         viewModel.confirmOutingApplicationItemButtonDidClicked()
                                     } else {
                                         viewModel.isErrorOcuured = true

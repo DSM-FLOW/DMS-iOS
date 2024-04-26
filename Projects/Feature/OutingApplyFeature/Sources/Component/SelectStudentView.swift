@@ -47,6 +47,7 @@ struct SelectStudentView: View {
 
             DMSWideButton(text: "\(selected)명 선택", color: .PrimaryVariant.primary) {
                 selectStudentsText = viewModel.outingApplicationCompanionName
+                viewModel.isShowingBottomSheet = false
             }
             .padding(.top, 24)
             .padding(.horizontal, 24)
