@@ -1,10 +1,11 @@
 import DesignSystem
 import SwiftUI
+import OutingDomainInterface
 
 struct OutingTimePickerView: View {
     @StateObject var viewModel: OutingApplyViewModel
     @Binding var timeText: String
-    @State var selectedTime = SelectedTime()
+    @State var selectedTime = OutingSelectTimeModel()
     @State var outingHourSelectTime: Int = 0
     @State var outingMinuteSelectTime: Int = 0
     @State var arrivalHourSelectTime: Int = 0
@@ -27,7 +28,7 @@ struct OutingTimePickerView: View {
                         ForEach(1 ..< 25) { num in
                             Text("\(num)")
                                 .dmsFont(.body(.body1), color: .GrayScale.gray10)
-                                .padding(.horizontal, 6)
+                                .padding(.horizontal, 3)
                         }
                     }
                     .pickerStyle(.inline)
@@ -39,7 +40,7 @@ struct OutingTimePickerView: View {
                         ForEach(0 ..< 60) { num in
                             Text("\(num)")
                                 .dmsFont(.body(.body1), color: .GrayScale.gray10)
-                                .padding(.horizontal, 6)
+                                .padding(.horizontal, 3)
                         }
                     }
                     .pickerStyle(.inline)
@@ -56,7 +57,7 @@ struct OutingTimePickerView: View {
                         ForEach(1 ..< 25) { num in
                             Text("\(num)")
                                 .dmsFont(.body(.body1), color: .GrayScale.gray10)
-                                .padding(.horizontal, 6)
+                                .padding(.horizontal, 3)
                         }
                     }
                     .listRowBackground(Color.clear)
@@ -68,7 +69,7 @@ struct OutingTimePickerView: View {
                         ForEach(0 ..< 60) { num in
                             Text("\(num)")
                                 .dmsFont(.body(.body1), color: .GrayScale.gray10)
-                                .padding(.horizontal, 6)
+                                .padding(.horizontal, 3)
                         }
                     }
                     .listRowBackground(Color.clear)
@@ -92,13 +93,6 @@ struct OutingTimePickerView: View {
             .dmsFont(.etc(.button))
             .padding(.top, 30)
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 20)
     }
-}
-
-struct SelectedTime {
-    var outingHour = 0
-    var outingMinute = 0
-    var arrivalHour = 0
-    var arrivalMinute = 0
 }
