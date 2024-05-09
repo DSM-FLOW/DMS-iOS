@@ -99,11 +99,11 @@ struct OutingApplyView: View {
                                         HStack {
                                             Text(typeText)
                                                 .dmsFont(.body(.body2), color: .GrayScale.gray5)
-                                                .padding(.trailing, 14)
+                                                .padding(.trailing, 10)
 
                                             Image(systemName: "chevron.down")
                                                 .foregroundColor(.System.icon)
-                                                .padding(.trailing, 5)
+                                                .padding(.trailing, 2)
                                         }
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 15)
@@ -115,7 +115,7 @@ struct OutingApplyView: View {
                                     }
                                 }
                                 OutingApplyTextField("동행인", "동행인 추가 ﹢ ", $selectStudentsText, false)
-                                    .padding(.horizontal, 12)
+                                    .padding(.horizontal, 10)
                                     .padding(.vertical, 12)
                                     .disabled(true)
                                     .onTapGesture {

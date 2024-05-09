@@ -63,6 +63,8 @@ final class OutingApplyViewModel: BaseViewModel {
     // fetchAllStudentUseCase
     @Published var studentName = ""
     @Published var students: [AllStudentEntity] = []
+    @Published var selectStudent: [AllStudentEntity] = []
+    @Published var selectedStudentString: [String] = []
 
     @Published var myOutingApplicationItem: MyOutingApplicationItemEntity?
     @Published var outingType: OutingTypeEntity?
@@ -86,17 +88,19 @@ final class OutingApplyViewModel: BaseViewModel {
         let arrivalTime: String = String(format: "%02d:%02d", arrivalHourSelectTime, arrivalMinuteSelectTime)
         return arrivalTime
     }
+
+    @Published var companionIdsApplication: [String] = []
     @Published var outingTypeTitleApplication = ""
     @Published var outingReasonApplication = ""
-    @Published var outingCompanionIdsApplication: [String] = []
-    @Published var outingCompanionName: [String] = []
-    var outingApplicationCompanionName: String {
-        if outingCompanionName.isEmpty {
+    @Published var companionGradeClassNumber: [String] = []
+    @Published var companionProfileImage: [String] = []
+    var outingCompanionName: String {
+        if selectedStudentString.isEmpty {
             return "없음"
-        } else if outingCompanionName.count == 1 {
-            return "\(outingCompanionName[0])"
+        } else if selectedStudentString.count == 1 {
+            return "\(selectedStudentString[0])"
         } else {
-            return "\(outingCompanionName[0]) 외 \(outingCompanionName.count-1)명"
+            return "\(selectedStudentString[0]) 외 \(selectedStudentString.count-1)명"
         }
     }
 
@@ -198,7 +202,7 @@ final class OutingApplyViewModel: BaseViewModel {
                     arrivalTime: arrivalApplicationTimeDate,
                     titleType: outingTypeTitleApplication,
                     reason: outingReasonApplication,
-                    companionIds: outingCompanionIdsApplication
+                    companionIds: companionIdsApplication
                 )
             )
         ) { [weak self] _ in
@@ -216,5 +220,24 @@ final class OutingApplyViewModel: BaseViewModel {
         ) { [weak self] students in
             self?.students = students
         }
+    }
+
+    func insertSelectedStudent(studentInfo: AllStudentEntity, name: String, id: String, gradeClassNumber: String) {
+        self.selectStudent.append(studentInfo)
+        self.selectedStudentString.append(name)
+        self.companionIdsApplication.append(id)
+        self.companionGradeClassNumber.append(gradeClassNumber)
+    }
+
+    func deleteSelectedStudent(
+        studentInfo: AllStudentEntity,
+        name: String,
+        gradeClassNumber: String,
+        id: String
+    ) {
+        self.selectStudent.removeAll() { $0 == studentInfo }
+        self.selectedStudentString.removeAll { $0 == name }
+        self.companionIdsApplication.removeAll() { $0 == id }
+        self.companionGradeClassNumber.removeAll() { $0 == gradeClassNumber }
     }
 }
