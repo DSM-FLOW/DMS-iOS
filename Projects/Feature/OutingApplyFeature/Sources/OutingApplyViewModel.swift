@@ -5,8 +5,8 @@ import BaseFeature
 import SwiftUI
 
 final class OutingApplyViewModel: BaseViewModel {
-    @Published var isPresentedDeleteOutingApplicationItemAlert = false
-    @Published var isPresentedOutingApplicationItemAlert = false
+    @Published var isPresentedDeleteOutingItemAlert = false
+    @Published var isPresentedOutingItemAlert = false
 
     /// 필수 사항 Status
     @Published var outingApplicationTimeStatus = false
@@ -27,7 +27,7 @@ final class OutingApplyViewModel: BaseViewModel {
         let date = Date()
         return date.dayOfWeekUpper()
     }
-    var outingDateType: String {
+    var dateType: String {
         switch currentDayOfWeek {
             case "MONDAY":
                 return "월"
@@ -140,11 +140,8 @@ final class OutingApplyViewModel: BaseViewModel {
             fetchMyOutingApplicationItemUseCase.execute()
         ) { [weak self] myOutingApplicationItem in
             var string: String?
-            myOutingApplicationItem.companions.map {
-                string = (string ?? "") + $0
-                if $0 != nil {
-                    string = (string ?? "") + ","
-                }
+            myOutingApplicationItem.companions.forEach {
+                string = (string ?? "") + $0 + ","
             }
             self?.outingId = "\(myOutingApplicationItem.id)"
             self?.outingTypeTitle = myOutingApplicationItem.titleType
@@ -176,7 +173,7 @@ final class OutingApplyViewModel: BaseViewModel {
     }
 
     func deleteOutingApplicationItemButtonDidClicked() {
-        isPresentedDeleteOutingApplicationItemAlert = true
+        isPresentedDeleteOutingItemAlert = true
     }
 
     func confirmDeleteOutingApplicationItemButtonDidClicked() {
@@ -190,7 +187,7 @@ final class OutingApplyViewModel: BaseViewModel {
     }
 
     func outingApplicationItemButtonDidClicked() {
-        isPresentedOutingApplicationItemAlert = true
+        isPresentedOutingItemAlert = true
     }
 
     func confirmOutingApplicationItemButtonDidClicked() {
@@ -235,14 +232,9 @@ final class OutingApplyViewModel: BaseViewModel {
         gradeClassNumber: String,
         id: String
     ) {
-        self.selectStudent.removeAll() { $0 == studentInfo }
+        self.selectStudent.removeAll { $0 == studentInfo }
         self.selectedStudentString.removeAll { $0 == name }
-        self.companionIdsApplication.removeAll() { $0 == id }
-        self.companionGradeClassNumber.removeAll() { $0 == gradeClassNumber }
+        self.companionIdsApplication.removeAll { $0 == id }
+        self.companionGradeClassNumber.removeAll { $0 == gradeClassNumber }
     }
-
-//    func setupKeyboardEvent() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
 }

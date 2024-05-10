@@ -119,7 +119,7 @@ struct SelectStudentView: View {
                             .fill(Color.GrayScale.gray5)
                             .padding(.vertical, 12)
                             .padding(.leading, 16)
-                        
+
                         Text("\(studentInfo.gradeClassNumber) \(studentInfo.name)")
                             .dmsFont(.etc(.button), color: isSelected ? .PrimaryVariant.primary : .GrayScale.gray6)
 

@@ -27,9 +27,10 @@ struct OutingApplyView: View {
             ScrollViewReader { proxy in
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
-                        ForEach(viewModel.outingAvailableTime, id: \.self) { outingTime in
+                        ForEach(viewModel.outingAvailableTime, id: \.self) { time in
                             OutingApplyNoticeView(
-                                notice: "외출 신청 시간은 \(viewModel.outingDateType) \(outingTime.outingTime) ~ \(viewModel.outingDateType) \(outingTime.arrivalTime) 까지 입니다."
+                                notice: "외출 신청 시간은 \(viewModel.dateType) \(time.outingTime) ~ "
+                                + "\(viewModel.dateType) \(time.arrivalTime) 까지 입니다."
                             )
                         }
 
@@ -139,9 +140,9 @@ struct OutingApplyView: View {
                                 DMSWideButton(text: "외출 신청하기", color: .PrimaryVariant.primary) {
                                     viewModel.outingTypeTitleApplication = typeText
                                     viewModel.outingReasonApplication = reasonText
-                                    viewModel.isPresentedOutingApplicationItemAlert = true
+                                    viewModel.isPresentedOutingItemAlert = true
                                 }
-                                .alert("", isPresented: $viewModel.isPresentedOutingApplicationItemAlert) {
+                                .alert("", isPresented: $viewModel.isPresentedOutingItemAlert) {
                                     Button("취소", role: .cancel) {}
                                     Button("확인", role: .destructive) {
                                         if viewModel.outingApplicationTimeStatus &&
@@ -157,13 +158,13 @@ struct OutingApplyView: View {
                                         .dmsFont(.body(.body2), color: .GrayScale.gray6)
                                 }
                                 .padding(.top, 40)
-                                .padding(.bottom, 50)
+                                .padding(.bottom, 70)
                             }
                             .padding(.horizontal, 24)
                         }
                     }
                     if inFocus == 2 {
-                        Color.clear.frame(height: 290)
+                        Color.clear.frame(height: 300)
                     }
                 }
                 .onChange(of: inFocus) { id in

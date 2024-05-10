@@ -55,7 +55,7 @@ struct RecentOutingApplyView: View {
                         Spacer()
                     }
                 }
-                .alert("", isPresented: $viewModel.isPresentedDeleteOutingApplicationItemAlert) {
+                .alert("", isPresented: $viewModel.isPresentedDeleteOutingItemAlert) {
                     Button("취소", role: .cancel) {}
                     Button("확인", role: .destructive) {
                         viewModel.confirmDeleteOutingApplicationItemButtonDidClicked()
