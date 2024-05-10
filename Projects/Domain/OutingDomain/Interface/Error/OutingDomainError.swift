@@ -19,7 +19,7 @@ extension OutingDomainError: LocalizedError {
             return "인증이 만료되었습니다. 다시 로그인해주세요."
 
         case .forbidden:
-            return "접근 권한이 없습니다."
+            return "외출 신청 시간을 확인해주세요."
 
         case .tooManyRequest:
             return "요청 횟수를 초과했습니다. 잠시 후 다시 시도해주세요."
@@ -28,7 +28,7 @@ extension OutingDomainError: LocalizedError {
             return "서버에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요."
 
         case .notFound:
-            return "항목을 찾을 수 없습니다."
+            return "신청한 외출 내역이 없습니다."
         }
     }
 }

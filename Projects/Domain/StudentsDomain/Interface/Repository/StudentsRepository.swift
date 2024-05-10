@@ -10,4 +10,5 @@ public protocol StudentsRepository {
     func fetchMyProfile() -> AnyPublisher<MyProfileEntity, Error>
     func changeProfileImage(url: String) -> AnyPublisher<Void, Error>
     func withdrawal() -> AnyPublisher<Void, Error>
+    func fetchAllStudents(name: String?) -> AnyPublisher<[StudentEntity], Error>
 }

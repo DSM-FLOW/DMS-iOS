@@ -20,4 +20,28 @@ public extension AppComponent {
             FetchMyOutingApplicationItemUseCaseImpl(outingRepository: outingRepository)
         }
     }
+
+    var fetchOutingAvailableTimeUseCase: any FetchOutingAvailableTimeUseCase {
+        shared {
+            FetchOutingAvailableTimeUseCaseImpl(outingRepository: outingRepository)
+        }
+    }
+
+    var fetchOutingTypeUseCase: any FetchOutingTypeUseCase {
+        shared {
+            FetchOutingTypeUseCaseImpl(outingRepository: outingRepository)
+        }
+    }
+
+    var deleteOutingApplicationItemUseCase: any DeleteOutingApplicationItemUseCase {
+        shared {
+            DeleteOutingApplicationItemUseCaseImpl(outingRepository: outingRepository)
+        }
+    }
+
+    var outingApplicationUseCase: any OutingApplicationUseCase {
+        shared {
+            OutingApplicationUseCaseImpl(outingRepository: outingRepository)
+        }
+    }
 }

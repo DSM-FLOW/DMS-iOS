@@ -48,4 +48,10 @@ public final class RemoteStudentsDataSourceImpl: BaseRemoteDataSource<StudentsAP
     public func withdrawal() -> AnyPublisher<Void, Error> {
         request(.withdrawal)
     }
+
+    public func fetchAllStudents(name: String?) -> AnyPublisher<[StudentEntity], Error> {
+        request(.fetchAllStudents(name: name), dto: FetchAllStudentsResponseDTO.self)
+            .map { $0.toDomain() }
+            .eraseToAnyPublisher()
+    }
 }

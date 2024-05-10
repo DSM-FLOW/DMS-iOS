@@ -45,4 +45,8 @@ public struct StudentsRepositoryImpl: StudentsRepository {
     public func withdrawal() -> AnyPublisher<Void, Error> {
         remoteStudentsDataSource.withdrawal()
     }
+
+    public func fetchAllStudents(name: String?) -> AnyPublisher<[StudentEntity], Error> {
+        remoteStudentsDataSource.fetchAllStudents(name: name)
+    }
 }

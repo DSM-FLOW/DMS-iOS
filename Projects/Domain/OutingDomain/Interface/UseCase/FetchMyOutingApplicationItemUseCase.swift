@@ -1,5 +1,5 @@
 import Combine
 
 public protocol FetchMyOutingApplicationItemUseCase {
-    func execute() -> AnyPublisher<Void, Error>
+    func execute() -> AnyPublisher<MyOutingApplicationItemEntity, Error>
 }
