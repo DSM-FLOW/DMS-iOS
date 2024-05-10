@@ -27,7 +27,7 @@ struct OutingTextFieldView: View {
                     .padding(.leading, 1)
                     .padding(.bottom, 8)
 
-                if self.isRequired ?? false {
+                if isRequired {
                     Text("*")
                         .dmsFont(.body(.body3), color: .PrimaryVariant.primary)
                 }
