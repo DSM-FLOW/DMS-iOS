@@ -21,14 +21,14 @@
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 public enum DesignSystemAsset {
   public enum ErrorColor {
-    public static let errorDarken1 = DesignSystemColors(name: "Error Darken-1")
+  public static let errorDarken1 = DesignSystemColors(name: "Error Darken-1")
     public static let errorDarken2 = DesignSystemColors(name: "Error Darken-2")
     public static let errorLighten1 = DesignSystemColors(name: "Error Lighten-1")
     public static let errorLighten2 = DesignSystemColors(name: "Error Lighten-2")
     public static let error = DesignSystemColors(name: "Error")
   }
   public enum GrayColor {
-    public static let gray1 = DesignSystemColors(name: "Gray 1")
+  public static let gray1 = DesignSystemColors(name: "Gray 1")
     public static let gray10 = DesignSystemColors(name: "Gray 10")
     public static let gray2 = DesignSystemColors(name: "Gray 2")
     public static let gray3 = DesignSystemColors(name: "Gray 3")
@@ -40,18 +40,18 @@ public enum DesignSystemAsset {
     public static let gray9 = DesignSystemColors(name: "Gray 9")
   }
   public enum Icons {
-    public static let dmsHorizontal = DesignSystemImages(name: "DMSHorizontal")
+  public static let dmsHorizontal = DesignSystemImages(name: "DMSHorizontal")
     public static let pencil = DesignSystemImages(name: "pencil")
   }
   public enum PrimaryColor {
-    public static let darken1 = DesignSystemColors(name: "Darken-1")
+  public static let darken1 = DesignSystemColors(name: "Darken-1")
     public static let darken2 = DesignSystemColors(name: "Darken-2")
     public static let lighten1 = DesignSystemColors(name: "Lighten-1")
     public static let lighten2 = DesignSystemColors(name: "Lighten-2")
     public static let primary = DesignSystemColors(name: "Primary")
   }
   public enum SystemColor {
-    public static let background = DesignSystemColors(name: "Background")
+  public static let background = DesignSystemColors(name: "Background")
     public static let errorContainer = DesignSystemColors(name: "Error Container")
     public static let icon = DesignSystemColors(name: "Icon")
     public static let line = DesignSystemColors(name: "Line")
@@ -91,10 +91,20 @@ public final class DesignSystemColors {
   }()
 
   #if canImport(SwiftUI)
+  private var _swiftUIColor: Any? = nil
   @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  public private(set) lazy var swiftUIColor: SwiftUI.Color = {
-    SwiftUI.Color(asset: self)
-  }()
+  public private(set) var swiftUIColor: SwiftUI.Color {
+    get {
+      if self._swiftUIColor == nil {
+        self._swiftUIColor = SwiftUI.Color(asset: self)
+      }
+
+      return self._swiftUIColor as! SwiftUI.Color
+    }
+    set {
+      self._swiftUIColor = newValue
+    }
+  }
   #endif
 
   fileprivate init(name: String) {
@@ -117,8 +127,8 @@ public extension DesignSystemColors.Color {
 }
 
 #if canImport(SwiftUI)
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 public extension SwiftUI.Color {
-  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
   init(asset: DesignSystemColors) {
     let bundle = DesignSystemResources.bundle
     self.init(asset.name, bundle: bundle)

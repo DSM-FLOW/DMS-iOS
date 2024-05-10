@@ -1,263 +1,131 @@
 import DesignSystem
+import StudentsDomainInterface
 import SwiftUI
 
 struct SelectStudentView: View {
-    @Binding var text: String
-    @State var selected = 0
+    @StateObject var viewModel: OutingApplyViewModel
+    @Binding var selectStudentsText: String
+    @State var searchText = ""
 
-    public init(text: Binding<String>) {
-        _text = text
-    }
     var body: some View {
-        VStack {
-            RoundedRectangle(cornerRadius: 30)
-                .fill(Color.GrayScale.gray1)
-                .frame(height: 48)
-                .dmsShadow(style: .surface)
-                .overlay(
+        VStack(alignment: .leading) {
+            RoundedRectangle(cornerRadius: 5)
+                .strokeBorder(Color.GrayScale.gray5, lineWidth: 1)
+                .frame(height: 50)
+                .overlay {
                     HStack {
                         Image(systemName: "magnifyingglass")
-                            .foregroundStyle(Color.GrayScale.gray5)
-
-                        Divider()
-                            .foregroundStyle(Color.GrayScale.gray3)
-                            .frame(width: 2)
-                            .padding(.leading, 14)
-                            .padding(.vertical, 10)
-
-                        TextField("", text: $text)
-                            .dmsFont(.body(.body2), color: .GrayScale.gray10)
-                            .padding(.leading, 16)
-
-                        Button(action: {
-                            text = ""
-                        }, label: {
-                            Image(systemName: "xmark")
-                                .foregroundStyle(Color.GrayScale.gray9)
-                        })
+                            .foregroundStyle(Color.GrayScale.gray10)
+                            .frame(width: 24, height: 24)
+                        
+                        TextField(
+                            "학번 또는 이름을 검색하세요.",
+                            text: $searchText,
+                            onCommit: viewModel.searchStudentInfo
+                        )
+                        .dmsFont(.body(.body2), color: .GrayScale.gray10)
+                        .onChange(of: searchText) { newValue in
+                            viewModel.studentName = newValue
+                        }
                     }
-                    .padding(.horizontal, 22)
-                )
+                    .padding(.horizontal, 12)
+                }
                 .padding(.horizontal, 24)
 
             ScrollView(showsIndicators: false) {
-                Button {
-                    selected += 1
-                } label: {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.GrayScale.gray3, lineWidth: 1)
-
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(Color.GrayScale.gray5)
-                                .padding(.vertical, 12)
-                                .padding(.leading, 16)
-
-                            Text("1111 홍길동")
-                                .dmsFont(.etc(.button), color: .GrayScale.gray6)
-
-                            Spacer()
-                        }
+                ForEach(viewModel.students, id: \.self) { studentInfo in
+                    selectStudentViewCell(
+                        studentInfo: studentInfo,
+                        isSelected: viewModel.companionIdsApplication.contains(studentInfo.id.uuidString)
+                    ) {
+                        viewModel.insertSelectedStudent(
+                            studentInfo: studentInfo,
+                            name: studentInfo.name,
+                            id: studentInfo.id.uuidString,
+                            gradeClassNumber: studentInfo.gradeClassNumber
+                        )
+                    } removedAction: {
+                        viewModel.deleteSelectedStudent(
+                            studentInfo: studentInfo,
+                            name: studentInfo.name,
+                            gradeClassNumber: studentInfo.gradeClassNumber,
+                            id: studentInfo.id.uuidString
+                        )
                     }
-                    .frame(height: 64)
-                }
-                Button {
-                    selected += 1
-                } label: {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.GrayScale.gray3, lineWidth: 1)
-
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(Color.GrayScale.gray5)
-                                .padding(.vertical, 12)
-                                .padding(.leading, 16)
-
-                            Text("1111 홍길동")
-                                .dmsFont(.etc(.button), color: .GrayScale.gray6)
-
-                            Spacer()
-                        }
-                    }
-                    .frame(height: 64)
-                }
-                Button {
-                    selected += 1
-                } label: {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.GrayScale.gray3, lineWidth: 1)
-
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(Color.GrayScale.gray5)
-                                .padding(.vertical, 12)
-                                .padding(.leading, 16)
-
-                            Text("1111 홍길동")
-                                .dmsFont(.etc(.button), color: .GrayScale.gray6)
-
-                            Spacer()
-                        }
-                    }
-                    .frame(height: 64)
-                }
-                Button {
-                    selected += 1
-                } label: {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.GrayScale.gray3, lineWidth: 1)
-
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(Color.GrayScale.gray5)
-                                .padding(.vertical, 12)
-                                .padding(.leading, 16)
-
-                            Text("1111 홍길동")
-                                .dmsFont(.etc(.button), color: .GrayScale.gray6)
-
-                            Spacer()
-                        }
-                    }
-                    .frame(height: 64)
-                }
-                Button {
-                    selected += 1
-                } label: {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.GrayScale.gray3, lineWidth: 1)
-
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(Color.GrayScale.gray5)
-                                .padding(.vertical, 12)
-                                .padding(.leading, 16)
-
-                            Text("1111 홍길동")
-                                .dmsFont(.etc(.button), color: .GrayScale.gray6)
-
-                            Spacer()
-                        }
-                    }
-                    .frame(height: 64)
-                }
-                Button {
-                    selected += 1
-                } label: {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.GrayScale.gray3, lineWidth: 1)
-
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(Color.GrayScale.gray5)
-                                .padding(.vertical, 12)
-                                .padding(.leading, 16)
-
-                            Text("1111 홍길동")
-                                .dmsFont(.etc(.button), color: .GrayScale.gray6)
-
-                            Spacer()
-                        }
-                    }
-                    .frame(height: 64)
-                }
-                Button {
-                    selected += 1
-                } label: {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.GrayScale.gray3, lineWidth: 1)
-
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(Color.GrayScale.gray5)
-                                .padding(.vertical, 12)
-                                .padding(.leading, 16)
-
-                            Text("1111 홍길동")
-                                .dmsFont(.etc(.button), color: .GrayScale.gray6)
-
-                            Spacer()
-                        }
-                    }
-                    .frame(height: 64)
-                }
-                Button {
-                    selected += 1
-                } label: {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.GrayScale.gray3, lineWidth: 1)
-
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(Color.GrayScale.gray5)
-                                .padding(.vertical, 12)
-                                .padding(.leading, 16)
-
-                            Text("1111 홍길동")
-                                .dmsFont(.etc(.button), color: .GrayScale.gray6)
-
-                            Spacer()
-                        }
-                    }
-                    .frame(height: 64)
-                }
-                Button {
-                    selected += 1
-                } label: {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.GrayScale.gray3, lineWidth: 1)
-
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(Color.GrayScale.gray5)
-                                .padding(.vertical, 12)
-                                .padding(.leading, 16)
-
-                            Text("1111 홍길동")
-                                .dmsFont(.etc(.button), color: .GrayScale.gray6)
-
-                            Spacer()
-                        }
-                    }
-                    .frame(height: 64)
-                }
-                Button {
-                    selected += 1
-                } label: {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.GrayScale.gray3, lineWidth: 1)
-
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(Color.GrayScale.gray5)
-                                .padding(.vertical, 12)
-                                .padding(.leading, 16)
-
-                            Text("1111 홍길동")
-                                .dmsFont(.etc(.button), color: .GrayScale.gray6)
-
-                            Spacer()
-                        }
-                    }
-                    .frame(height: 64)
                 }
             }
-            .padding(.top, 16)
+            .padding(.top, 10)
             .padding(.horizontal, 24)
 
-            DMSWideButton(text: "\(selected)명 선택", color: .PrimaryVariant.primary)
-                .padding(.top, 24)
+            Text("선택자 목록")
+                .dmsFont(.etc(.caption), color: .black)
+                .padding(.top, 20)
                 .padding(.horizontal, 24)
+            Spacer()
+
+            ScrollView(showsIndicators: false) {
+                ForEach(viewModel.selectStudent, id: \.self) { studentInfo in
+                    selectStudentViewCell(
+                        studentInfo: studentInfo,
+                        isSelected: viewModel.companionIdsApplication.contains(studentInfo.id.uuidString)
+                    ) {
+                        viewModel.insertSelectedStudent(
+                            studentInfo: studentInfo,
+                            name: studentInfo.name,
+                            id: studentInfo.id.uuidString,
+                            gradeClassNumber: studentInfo.gradeClassNumber
+                        )
+                    } removedAction: {
+                        viewModel.deleteSelectedStudent(
+                            studentInfo: studentInfo,
+                            name: studentInfo.name,
+                            gradeClassNumber: studentInfo.gradeClassNumber,
+                            id: studentInfo.id.uuidString
+                        )
+                    }
+                }
+            }
+            .padding(.top, 8)
+            .padding(.horizontal, 24)
+
+            DMSWideButton(
+                text: "\(viewModel.companionIdsApplication.count)명 선택",
+                color: .PrimaryVariant.primary
+            ) {
+                selectStudentsText = viewModel.outingCompanionName
+                viewModel.isShowingBottomSheet = false
+            }
+            .padding(.top, 24)
+            .padding(.horizontal, 24)
+        }
+    }
+
+    @ViewBuilder
+    func selectStudentViewCell(
+        studentInfo: StudentEntity,
+        isSelected: Bool,
+        selectedAction: @escaping () -> Void,
+        removedAction: @escaping () -> Void
+    ) -> some View {
+        Button {
+            (isSelected ? removedAction : selectedAction)()
+        } label: {
+            RoundedRectangle(cornerRadius: 8)
+                .strokeBorder(isSelected ? .PrimaryVariant.primary : Color.GrayScale.gray3, lineWidth: 1)
+                .frame(height: 64)
+                .overlay {
+                    HStack(spacing: 16) {
+                        Circle()
+                            .fill(Color.GrayScale.gray5)
+                            .padding(.vertical, 12)
+                            .padding(.leading, 16)
+
+                        Text("\(studentInfo.gradeClassNumber) \(studentInfo.name)")
+                            .dmsFont(.etc(.button), color: isSelected ? .PrimaryVariant.primary : .GrayScale.gray6)
+
+                        Spacer()
+                    }
+                }
         }
     }
 }

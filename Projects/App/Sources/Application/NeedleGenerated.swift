@@ -577,6 +577,21 @@ private class OutingApplyDependency9697a35706d45fe3b1a6Provider: OutingApplyDepe
     var fetchMyOutingApplicationItemUseCase: any FetchMyOutingApplicationItemUseCase {
         return appComponent.fetchMyOutingApplicationItemUseCase
     }
+    var fetchOutingAvailableTimeUseCase: any FetchOutingAvailableTimeUseCase {
+        return appComponent.fetchOutingAvailableTimeUseCase
+    }
+    var fetchOutingTypeUseCase: any FetchOutingTypeUseCase {
+        return appComponent.fetchOutingTypeUseCase
+    }
+    var deleteOutingApplicationItemUseCase: any DeleteOutingApplicationItemUseCase {
+        return appComponent.deleteOutingApplicationItemUseCase
+    }
+    var fetchAllStudentsUseCase: any FetchAllStudentsUseCase {
+        return appComponent.fetchAllStudentsUseCase
+    }
+    var outingApplicationUseCase: any OutingApplicationUseCase {
+        return appComponent.outingApplicationUseCase
+    }
     private let appComponent: AppComponent
     init(appComponent: AppComponent) {
         self.appComponent = appComponent
@@ -679,6 +694,7 @@ extension AppComponent: Registration {
         localTable["fetchMyProfileUseCase-any FetchMyProfileUseCase"] = { [unowned self] in self.fetchMyProfileUseCase as Any }
         localTable["changeProfileImageUseCase-any ChangeProfileImageUseCase"] = { [unowned self] in self.changeProfileImageUseCase as Any }
         localTable["withdrawalUseCase-any WithdrawalUseCase"] = { [unowned self] in self.withdrawalUseCase as Any }
+        localTable["fetchAllStudentsUseCase-any FetchAllStudentsUseCase"] = { [unowned self] in self.fetchAllStudentsUseCase as Any }
         localTable["remoteUsersDataSource-any RemoteUsersDataSource"] = { [unowned self] in self.remoteUsersDataSource as Any }
         localTable["usersRepository-any UsersRepository"] = { [unowned self] in self.usersRepository as Any }
         localTable["changePasswordUseCase-any ChangePasswordUseCase"] = { [unowned self] in self.changePasswordUseCase as Any }
@@ -689,6 +705,10 @@ extension AppComponent: Registration {
         localTable["remoteOutingDataSource-any RemoteOutingDataSource"] = { [unowned self] in self.remoteOutingDataSource as Any }
         localTable["outingRepository-any OutingRepository"] = { [unowned self] in self.outingRepository as Any }
         localTable["fetchMyOutingApplicationItemUseCase-any FetchMyOutingApplicationItemUseCase"] = { [unowned self] in self.fetchMyOutingApplicationItemUseCase as Any }
+        localTable["fetchOutingAvailableTimeUseCase-any FetchOutingAvailableTimeUseCase"] = { [unowned self] in self.fetchOutingAvailableTimeUseCase as Any }
+        localTable["fetchOutingTypeUseCase-any FetchOutingTypeUseCase"] = { [unowned self] in self.fetchOutingTypeUseCase as Any }
+        localTable["deleteOutingApplicationItemUseCase-any DeleteOutingApplicationItemUseCase"] = { [unowned self] in self.deleteOutingApplicationItemUseCase as Any }
+        localTable["outingApplicationUseCase-any OutingApplicationUseCase"] = { [unowned self] in self.outingApplicationUseCase as Any }
         localTable["remoteMealDataSource-any RemoteMealDataSource"] = { [unowned self] in self.remoteMealDataSource as Any }
         localTable["mealRepository-any MealRepository"] = { [unowned self] in self.mealRepository as Any }
         localTable["fetchMealListUseCase-any FetchMealListUseCase"] = { [unowned self] in self.fetchMealListUseCase as Any }
@@ -899,6 +919,11 @@ extension NoticeDetailComponent: Registration {
 extension OutingApplyComponent: Registration {
     public func registerItems() {
         keyPathToName[\OutingApplyDependency.fetchMyOutingApplicationItemUseCase] = "fetchMyOutingApplicationItemUseCase-any FetchMyOutingApplicationItemUseCase"
+        keyPathToName[\OutingApplyDependency.fetchOutingAvailableTimeUseCase] = "fetchOutingAvailableTimeUseCase-any FetchOutingAvailableTimeUseCase"
+        keyPathToName[\OutingApplyDependency.fetchOutingTypeUseCase] = "fetchOutingTypeUseCase-any FetchOutingTypeUseCase"
+        keyPathToName[\OutingApplyDependency.deleteOutingApplicationItemUseCase] = "deleteOutingApplicationItemUseCase-any DeleteOutingApplicationItemUseCase"
+        keyPathToName[\OutingApplyDependency.fetchAllStudentsUseCase] = "fetchAllStudentsUseCase-any FetchAllStudentsUseCase"
+        keyPathToName[\OutingApplyDependency.outingApplicationUseCase] = "outingApplicationUseCase-any OutingApplicationUseCase"
     }
 }
 extension FindIDComponent: Registration {

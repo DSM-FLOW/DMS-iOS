@@ -9,7 +9,7 @@ struct OutingApplyView: View {
     @State var typeText = "선택 1"
     @State var placeText = ""
     @State var reasonText = ""
-    @State var studentName = ""
+    @State var selectStudentsText = ""
 
     init(
         viewModel: OutingApplyViewModel
@@ -17,82 +17,163 @@ struct OutingApplyView: View {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
+    @FocusState var inFocus: Int?
+
     var body: some View {
         VStack {
             Spacer()
                 .frame(height: 1)
 
-            ScrollView(showsIndicators: false) {
-                OutingApplyNoticeView(notice: viewModel.rangeString)
-
-                if viewModel.isApplied {
-                    RecentOutingApplyView(
-                        date: "2023.05.04",
-                        type: "식사 외출",
-                        isAccepted: true,
-                        startTime: "00:00",
-                        endTime: "00:00",
-                        people: "홍길동, 홍길동, 홍길동, 홍길동",
-                        place: "둔산동",
-                        reason: "기말고사가 끝나서 마음가짐을 refresh하는 차원에서 맛있는걸 먹고 오고 싶습니다"
-                    )
-                } else {
+            ScrollViewReader { proxy in
+                ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
-                        OutingApplyTextField("외출 일자", "2023.06.28(수)", $dateText)
-                            .padding(.top, 15)
-                            .padding(.bottom, 40)
+                        ForEach(viewModel.outingAvailableTime, id: \.self) { time in
+                            OutingApplyNoticeView(
+                                notice: "외출 신청 시간은 \(viewModel.dateType) \(time.outingTime) ~ "
+                                + "\(viewModel.dateType) \(time.arrivalTime) 까지 입니다."
+                            )
+                        }
 
-                        OutingApplyTextField("외출 시간", "12:00 ~ 13:00", $timeText)
-                            .padding(.bottom, 40)
+                        if viewModel.isApplied {
+                            RecentOutingApplyView(
+                                viewModel: viewModel,
+                                date: viewModel.outingDate,
+                                type: viewModel.outingTypeTitle,
+                                isAccepted: false,
+                                startTime: viewModel.startTime,
+                                endTime: viewModel.endTime,
+                                people: viewModel.outingCompanions,
+                                reason: viewModel.outingReason
+                            )
+                        } else {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text("' ")
+                                        .foregroundColor(.GrayScale.gray10)
+                                    + Text("*")
+                                        .foregroundColor(.blue)
+                                    + Text(" '가 포함 된 필드는 필수로 입력해야 합니다.")
+                                        .foregroundColor(.GrayScale.gray10)
+                                }
+                                .dmsFont(.etc(.caption))
+                                .padding(.top, 15)
+                                .padding(.bottom, 12)
 
-                        HStack(spacing: 20) {
-                            Menu {
-                                Button("식사 외출", action: { typeText = "식사 외출" })
-                                Button("유형 1", action: { typeText = "유형 1" })
-                                Button("유형 2", action: { typeText = "유형 2" })
-                            } label: {
+                                HStack {
+                                    Text("외출 일자")
+                                        .dmsFont(.body(.body2), color: .GrayScale.gray10)
+                                        .padding(.top, 12)
+                                        .padding(.bottom, 12)
+
+                                    Text(Date().toDMSOutingApplicationString())
+                                        .dmsFont(.body(.body2), color: .GrayScale.gray6)
+                                        .padding(.leading, 20)
+                                        .padding(.top, 12)
+                                        .padding(.bottom, 12)
+                                }
+
+                                OutingTextFieldView("외출 시간", viewModel.outingApplicationTime, $timeText, true)
+                                    .padding(.top, 12)
+                                    .padding(.bottom, 12)
+                                    .disabled(true)
+                                    .onTapGesture {
+                                        viewModel.isShowingOutingTimePickerBottomSheet = true
+                                    }
+
+                                HStack(spacing: 15) {
+                                    Menu {
+                                        ForEach(viewModel.outingTypeTitles.indices, id: \.self) { index in
+                                            Button(viewModel.outingTypeTitles[index], action: {
+                                                typeText = viewModel.outingTypeTitles[index]
+                                                viewModel.outingTypeTitleApplication = typeText
+                                                viewModel.outingTypeTitleApplicationStatus = true
+                                            })
+                                        }
+                                    } label: {
+                                        VStack(alignment: .leading) {
+                                            HStack {
+                                                Text("외출 유형")
+                                                    .dmsFont(.body(.body2), color: .GrayScale.gray10)
+                                                    .padding(.bottom, 8)
+                                                Text("*")
+                                                    .foregroundColor(.blue)
+                                                    .padding(.bottom, 4)
+                                            }
+
+                                            HStack {
+                                                Text(typeText)
+                                                    .dmsFont(.body(.body2), color: .GrayScale.gray5)
+                                                    .padding(.trailing, 10)
+
+                                                Image(systemName: "chevron.down")
+                                                    .foregroundColor(.System.icon)
+                                                    .padding(.trailing, 2)
+                                            }
+                                            .padding(.horizontal, 16)
+                                            .padding(.vertical, 15)
+                                            .overlay {
+                                                RoundedRectangle(cornerRadius: 4)
+                                                    .stroke(Color.GrayScale.gray5, lineWidth: 1)
+                                                    .frame(height: 50)
+                                            }
+                                        }
+                                    }
+
+                                    OutingTextFieldView("동행인", "동행인 추가 ﹢ ", $selectStudentsText, false)
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 12)
+                                        .disabled(true)
+                                        .onTapGesture {
+                                            viewModel.isShowingBottomSheet = true
+                                        }
+                                }
+                                .padding(.top, 12)
+
                                 VStack(alignment: .leading) {
-                                    Text("외출 유형")
+                                    Text("외출 사유")
                                         .dmsFont(.body(.body2), color: .GrayScale.gray10)
                                         .padding(.bottom, 8)
 
-                                    HStack {
-                                        Text(typeText)
-                                            .dmsFont(.body(.body2), color: .GrayScale.gray5)
-                                            .padding(.trailing, 14)
+                                    DMSFormTextEditor("내용을 입력해주세요.", text: $reasonText, minHeight: 150).id(2)
+                                        .focused($inFocus, equals: 2)
 
-                                        Image(systemName: "chevron.down")
-                                            .foregroundColor(.System.icon)
-                                            .padding(.trailing, 5)
-                                    }
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 15)
-                                    .overlay {
-                                        RoundedRectangle(cornerRadius: 4)
-                                            .stroke(Color.GrayScale.gray5, lineWidth: 1)
-                                    }
                                 }
+
+                                DMSWideButton(text: "외출 신청하기", color: .PrimaryVariant.primary) {
+                                    viewModel.outingTypeTitleApplication = typeText
+                                    viewModel.outingReasonApplication = reasonText
+                                    viewModel.isPresentedOutingItemAlert = true
+                                }
+                                .alert("", isPresented: $viewModel.isPresentedOutingItemAlert) {
+                                    Button("취소", role: .cancel) {}
+                                    Button("확인", role: .destructive) {
+                                        if viewModel.outingApplicationTimeStatus &&
+                                            viewModel.outingTypeTitleApplicationStatus {
+                                            viewModel.confirmOutingApplicationItemButtonDidClicked()
+                                        } else {
+                                            viewModel.isErrorOcuured = true
+                                            viewModel.errorMessage = "필수 입력 항목을 확인해주세요."
+                                        }
+                                    }
+                                } message: {
+                                    Text("외출을 신청하시겠습니까?")
+                                        .dmsFont(.body(.body2), color: .GrayScale.gray6)
+                                }
+                                .padding(.top, 40)
+                                .padding(.bottom, 70)
                             }
-
-                            OutingApplyTextField("외출 장소", "외출 장소를 입력해주세요.", $placeText)
+                            .padding(.horizontal, 24)
                         }
-                        .padding(.bottom, 40)
-
-                        VStack(alignment: .leading) {
-                            Text("외출 사유")
-                                .dmsFont(.body(.body2), color: .GrayScale.gray10)
-                                .padding(.bottom, 8)
-
-                            DMSFormTextEditor("내용을 입력해주세요.", text: $reasonText, minHeight: 150)
-                        }
-
-                        DMSWideButton(text: "외출 신청하기", color: .PrimaryVariant.primary) {
-                            viewModel.isShowingBottomSheet = true
-                        }
-                        .padding(.top, 60)
-                        .padding(.bottom, 70)
                     }
-                    .padding(.horizontal, 24)
+
+                    if inFocus == 2 {
+                        Color.clear.frame(height: 300)
+                    }
+                }
+                .onChange(of: inFocus) { id in
+                    withAnimation(.linear(duration: 0.5)) {
+                        proxy.scrollTo(id, anchor: .top)
+                    }
                 }
             }
         }
@@ -107,10 +188,32 @@ struct OutingApplyView: View {
             sheetCornerRadiusValue: 16
         ) {
             DeferView {
-                SelectStudentView(text: $studentName)
-                    .frame(height: 512)
-                    .padding(.vertical, 24)
+                SelectStudentView(
+                    viewModel: viewModel,
+                    selectStudentsText: $selectStudentsText
+                )
+                .frame(height: 512)
+                .padding(.vertical, 24)
             }
         }
+        .dmsBottomSheet(
+            isShowing: $viewModel.isShowingOutingTimePickerBottomSheet,
+            isGrabberOn: false,
+            sheetCornerRadiusValue: 16
+        ) {
+            DeferView {
+                OutingTimePickerView(
+                    viewModel: viewModel,
+                    timeText: $timeText
+                )
+                .frame(height: 250)
+                .padding(.vertical, 24)
+            }
+        }
+        .onAppear {
+            viewModel.onAppear()
+        }
+        .dmsToast(isShowing: $viewModel.isErrorOcuured, message: viewModel.errorMessage, style: .error)
+        .dmsToast(isShowing: $viewModel.isShowingToast, message: viewModel.toastMessage, style: .success)
     }
 }

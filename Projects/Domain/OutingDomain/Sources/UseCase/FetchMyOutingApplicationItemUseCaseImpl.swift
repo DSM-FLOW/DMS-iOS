@@ -8,7 +8,7 @@ public struct FetchMyOutingApplicationItemUseCaseImpl: FetchMyOutingApplicationI
         self.outingRepository = outingRepository
     }
 
-    public func execute() -> AnyPublisher<Void, Error> {
+    public func execute() -> AnyPublisher<MyOutingApplicationItemEntity, Error> {
         outingRepository.fetchMyOutingApplicationItem()
     }
 }
