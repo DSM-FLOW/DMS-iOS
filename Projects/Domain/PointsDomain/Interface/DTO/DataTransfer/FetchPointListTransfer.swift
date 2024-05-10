@@ -1,15 +1,12 @@
 import Combine
+import UtilityModule
 import Foundation
 
 public extension FetchPointListResponseDTO.SinglePointResponseDTO {
     func toDomain() -> PointEntity.SinglePoint {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        formatter.locale = Locale(identifier: "ko_kr")
-        let date: Date = formatter.date(from: date) ?? .init()
-        return PointEntity.SinglePoint(
+        PointEntity.SinglePoint(
             pointID: pointID,
-            date: date,
+            date: date.toSmallDMSDate(),
             type: PointsType(rawValue: type) ?? .bonus,
             name: name,
             score: score
