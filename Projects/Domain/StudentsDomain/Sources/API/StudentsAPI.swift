@@ -59,7 +59,8 @@ extension StudentsAPI: DmsAPI {
 
     public var method: Moya.Method {
         switch self {
-        case .checkDuplicateAccountID, .checkDuplicateEmail, .findID, .fetchMyProfile, .checkExistGradeClassNumber, .fetchAllStudents:
+        case .checkDuplicateAccountID, .checkDuplicateEmail, .findID,
+                .fetchMyProfile, .checkExistGradeClassNumber, .fetchAllStudents:
             return .get
 
         case .signup:
@@ -201,7 +202,7 @@ extension StudentsAPI: DmsAPI {
                 500: .internalServerError
             ]
 
-        case .fetchAllStudents(name: _):
+        case .fetchAllStudents:
             return [
                 400: .badRequest,
                 401: .tokenExpired,

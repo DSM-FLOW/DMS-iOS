@@ -70,7 +70,8 @@ extension OutingAPI: DmsAPI {
 
     public var errorMap: [Int: ErrorType] {
         switch self {
-        case .fetchMyOutingApplicationItem, .fetchOutingAvailableTime, .fetchOutingType, .deleteOutingApplicationItem, .outingApplication:
+        case .fetchMyOutingApplicationItem, .fetchOutingAvailableTime, .fetchOutingType,
+                .deleteOutingApplicationItem, .outingApplication:
             return [
                 400: .badRequest,
                 401: .tokenExpired,
