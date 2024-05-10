@@ -47,12 +47,16 @@ struct RecentOutingApplyView: View {
                             .background(Color.GrayScale.gray2)
                             .cornerRadius(10)
                     }
+
                     Spacer()
+
                     VStack(alignment: .trailing) {
                         DMSButton(text: "외출 취소", style: .underline, color: .red) {
                             viewModel.deleteOutingApplicationItemButtonDidClicked()
                         }
+
                         Spacer()
+
                     }
                 }
                 .alert("", isPresented: $viewModel.isPresentedDeleteOutingItemAlert) {
