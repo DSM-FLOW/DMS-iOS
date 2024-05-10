@@ -28,7 +28,7 @@ extension OutingDomainError: LocalizedError {
             return "서버에 문제가 발생하였습니다. 잠시 후 다시 시도해주세요."
 
         case .notFound:
-            return "외출 신청이 없습니다."
+            return "신청한 외출 내역이 없습니다."
         }
     }
 }
