@@ -14,7 +14,7 @@ public enum StudentsAPI {
     case fetchMyProfile
     case changeProfileImage(url: String)
     case withdrawal
-    case fetchAllStudent(name: String?)
+    case fetchAllStudents(name: String?)
 }
 
 extension StudentsAPI: DmsAPI {
@@ -52,14 +52,14 @@ extension StudentsAPI: DmsAPI {
         case .withdrawal:
             return ""
 
-        case .fetchAllStudent:
+        case .fetchAllStudents:
             return ""
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .checkDuplicateAccountID, .checkDuplicateEmail, .findID, .fetchMyProfile, .checkExistGradeClassNumber, .fetchAllStudent:
+        case .checkDuplicateAccountID, .checkDuplicateEmail, .findID, .fetchMyProfile, .checkExistGradeClassNumber, .fetchAllStudents:
             return .get
 
         case .signup:
@@ -113,7 +113,7 @@ extension StudentsAPI: DmsAPI {
                     "profile_image_url": url
                 ], encoding: JSONEncoding.default)
 
-        case let .fetchAllStudent(name):
+        case let .fetchAllStudents(name):
             return .requestParameters(parameters: [
                 "name": name ?? ""
             ], encoding: URLEncoding.queryString)
@@ -124,7 +124,7 @@ extension StudentsAPI: DmsAPI {
 
     public var jwtTokenType: JwtTokenType {
         switch self {
-        case .fetchMyProfile, .changeProfileImage, .withdrawal, .fetchAllStudent:
+        case .fetchMyProfile, .changeProfileImage, .withdrawal, .fetchAllStudents:
             return .accessToken
 
         default:
@@ -201,7 +201,7 @@ extension StudentsAPI: DmsAPI {
                 500: .internalServerError
             ]
 
-        case .fetchAllStudent(name: _):
+        case .fetchAllStudents(name: _):
             return [
                 400: .badRequest,
                 401: .tokenExpired,

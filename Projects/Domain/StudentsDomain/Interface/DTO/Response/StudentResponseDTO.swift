@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SingleAllStudentResponseDTO: Decodable {
+public struct StudentResponseDTO: Decodable {
     public let id: UUID
     public let name: String
     public let gradeClassNumber: String

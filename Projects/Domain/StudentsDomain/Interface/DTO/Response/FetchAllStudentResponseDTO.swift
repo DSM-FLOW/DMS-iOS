@@ -1,7 +1,7 @@
 import Foundation
 
-public struct FetchAllStudentResponseDTO: Decodable {
-    public let students: [SingleAllStudentResponseDTO]
+public struct FetchAllStudentsResponseDTO: Decodable {
+    public let students: [StudentResponseDTO]
 
     enum CodingKeys: String, CodingKey {
         case students

@@ -1,6 +1,6 @@
 import Foundation
 
-public struct AllStudentEntity: Equatable, Hashable {
+public struct StudentEntity: Equatable, Hashable {
     public init(
         id: UUID,
         name: String,

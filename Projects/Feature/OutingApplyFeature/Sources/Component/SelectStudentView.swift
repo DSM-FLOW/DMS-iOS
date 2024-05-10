@@ -102,7 +102,7 @@ struct SelectStudentView: View {
 
     @ViewBuilder
     func selectStudentViewCell(
-        studentInfo: AllStudentEntity,
+        studentInfo: StudentEntity,
         isSelected: Bool,
         selectedAction: @escaping () -> Void,
         removedAction: @escaping () -> Void

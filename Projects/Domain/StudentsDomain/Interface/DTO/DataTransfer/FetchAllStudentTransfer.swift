@@ -1,15 +1,15 @@
 import Combine
 import Foundation
 
-public extension FetchAllStudentResponseDTO {
-    func toDomain() -> [AllStudentEntity] {
+public extension FetchAllStudentsResponseDTO {
+    func toDomain() -> [StudentEntity] {
         students.map { $0.toDomain() }
     }
 }
 
-public extension SingleAllStudentResponseDTO {
-    func toDomain() -> AllStudentEntity {
-        AllStudentEntity(
+public extension StudentResponseDTO {
+    func toDomain() -> StudentEntity {
+        StudentEntity(
             id: id,
             name: name,
             gradeClassNumber: gradeClassNumber,

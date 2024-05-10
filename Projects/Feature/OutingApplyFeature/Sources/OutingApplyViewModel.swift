@@ -62,8 +62,8 @@ final class OutingApplyViewModel: BaseViewModel {
 
     // fetchAllStudentUseCase
     @Published var studentName = ""
-    @Published var students: [AllStudentEntity] = []
-    @Published var selectStudent: [AllStudentEntity] = []
+    @Published var students: [StudentEntity] = []
+    @Published var selectStudent: [StudentEntity] = []
     @Published var selectedStudentString: [String] = []
 
     @Published var myOutingApplicationItem: MyOutingApplicationItemEntity?
@@ -108,7 +108,7 @@ final class OutingApplyViewModel: BaseViewModel {
     private let fetchMyOutingApplicationItemUseCase: any FetchMyOutingApplicationItemUseCase
     private let fetchOutingTypeUseCase: any FetchOutingTypeUseCase
     private let deleteOutingApplicationItemUseCase: any DeleteOutingApplicationItemUseCase
-    private let fetchAllStudentUseCase: any FetchAllStudentUseCase
+    private let fetchAllStudentsUseCase: any FetchAllStudentsUseCase
     private let outingApplicationUseCase: any OutingApplicationUseCase
 
     init(
@@ -116,14 +116,14 @@ final class OutingApplyViewModel: BaseViewModel {
         fetchMyOutingApplicationItemUseCase: any FetchMyOutingApplicationItemUseCase,
         fetchOutingTypeUseCase: any FetchOutingTypeUseCase,
         deleteOutingApplicationItemUseCase: any DeleteOutingApplicationItemUseCase,
-        fetchAllStudentUseCase: any FetchAllStudentUseCase,
+        fetchAllStudentsUseCase: any FetchAllStudentsUseCase,
         outingApplicationUseCase: any OutingApplicationUseCase
     ) {
         self.fetchOutingAvailableTimeUseCase = fetchOutingAvailableTimeUseCase
         self.fetchMyOutingApplicationItemUseCase = fetchMyOutingApplicationItemUseCase
         self.fetchOutingTypeUseCase = fetchOutingTypeUseCase
         self.deleteOutingApplicationItemUseCase = deleteOutingApplicationItemUseCase
-        self.fetchAllStudentUseCase = fetchAllStudentUseCase
+        self.fetchAllStudentsUseCase = fetchAllStudentsUseCase
         self.outingApplicationUseCase = outingApplicationUseCase
     }
 
@@ -167,7 +167,7 @@ final class OutingApplyViewModel: BaseViewModel {
         }
 
         addCancellable(
-            fetchAllStudentUseCase.execute(
+            fetchAllStudentsUseCase.execute(
                 name: studentName
             )
         ) { [weak self] students in
@@ -214,7 +214,7 @@ final class OutingApplyViewModel: BaseViewModel {
 
     func searchStudentInfo() {
         addCancellable(
-            fetchAllStudentUseCase.execute(
+            fetchAllStudentsUseCase.execute(
                 name: studentName
             )
         ) { [weak self] students in
@@ -222,7 +222,7 @@ final class OutingApplyViewModel: BaseViewModel {
         }
     }
 
-    func insertSelectedStudent(studentInfo: AllStudentEntity, name: String, id: String, gradeClassNumber: String) {
+    func insertSelectedStudent(studentInfo: StudentEntity, name: String, id: String, gradeClassNumber: String) {
         self.selectStudent.append(studentInfo)
         self.selectedStudentString.append(name)
         self.companionIdsApplication.append(id)
@@ -230,7 +230,7 @@ final class OutingApplyViewModel: BaseViewModel {
     }
 
     func deleteSelectedStudent(
-        studentInfo: AllStudentEntity,
+        studentInfo: StudentEntity,
         name: String,
         gradeClassNumber: String,
         id: String
@@ -240,4 +240,9 @@ final class OutingApplyViewModel: BaseViewModel {
         self.companionIdsApplication.removeAll() { $0 == id }
         self.companionGradeClassNumber.removeAll() { $0 == gradeClassNumber }
     }
+
+//    func setupKeyboardEvent() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+//    }
 }
