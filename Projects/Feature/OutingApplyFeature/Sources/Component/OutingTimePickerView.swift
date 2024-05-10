@@ -6,10 +6,6 @@ struct OutingTimePickerView: View {
     @StateObject var viewModel: OutingApplyViewModel
     @Binding var timeText: String
     @State var selectedTime = OutingSelectTimeModel()
-    @State var outingHourSelectTime: Int = 0
-    @State var outingMinuteSelectTime: Int = 0
-    @State var arrivalHourSelectTime: Int = 0
-    @State var arrivalMinuteSelectTime: Int = 0
     @State var isPressed = false
 
     var body: some View {

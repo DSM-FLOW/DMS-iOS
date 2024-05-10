@@ -1,8 +1,8 @@
 import DesignSystem
 import SwiftUI
 
-struct OutingApplyTextField: View {
-    @State var title: String
+struct OutingTextFieldView: View {
+    var title: String
     var placeholder: String
     @Binding var text: String
     var isRequired: Bool?
