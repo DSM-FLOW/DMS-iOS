@@ -17,7 +17,7 @@ struct SelectStudentView: View {
                         Image(systemName: "magnifyingglass")
                             .foregroundStyle(Color.GrayScale.gray10)
                             .frame(width: 24, height: 24)
-                        
+
                         TextField(
                             "학번 또는 이름을 검색하세요.",
                             text: $searchText,
