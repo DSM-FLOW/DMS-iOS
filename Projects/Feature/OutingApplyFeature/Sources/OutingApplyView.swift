@@ -52,7 +52,7 @@ struct OutingApplyView: View {
                                         .foregroundColor(.GrayScale.gray10)
                                     + Text("*")
                                         .foregroundColor(.blue)
-                                    + Text(" '는 필수 입력 항목입니다.")
+                                    + Text(" '가 포함 된 필드는 필수로 입력해야 합니다.")
                                         .foregroundColor(.GrayScale.gray10)
                                 }
                                 .dmsFont(.etc(.caption))
