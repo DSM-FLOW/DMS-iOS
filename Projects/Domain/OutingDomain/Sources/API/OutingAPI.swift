@@ -28,7 +28,7 @@ extension OutingAPI: DmsAPI {
         case .fetchOutingType:
             return "/types"
 
-        case .deleteOutingApplicationItem(id: let id):
+        case let .deleteOutingApplicationItem(id):
             return "/\(id)"
 
         case .outingApplication:
