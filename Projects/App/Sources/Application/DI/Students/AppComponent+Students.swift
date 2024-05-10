@@ -70,9 +70,9 @@ public extension AppComponent {
         }
     }
 
-    var fetchAllStudentUseCase: any FetchAllStudentUseCase {
+    var fetchAllStudentsUseCase: any FetchAllStudentsUseCase {
         shared {
-            FetchAllStudentUseCaseImpl(studentsRepository: studentsRepository)
+            FetchAllStudentsUseCaseImpl(studentsRepository: studentsRepository)
         }
     }
 }

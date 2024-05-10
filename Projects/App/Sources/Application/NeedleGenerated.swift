@@ -586,8 +586,8 @@ private class OutingApplyDependency9697a35706d45fe3b1a6Provider: OutingApplyDepe
     var deleteOutingApplicationItemUseCase: any DeleteOutingApplicationItemUseCase {
         return appComponent.deleteOutingApplicationItemUseCase
     }
-    var fetchAllStudentUseCase: any FetchAllStudentUseCase {
-        return appComponent.fetchAllStudentUseCase
+    var fetchAllStudentsUseCase: any FetchAllStudentsUseCase {
+        return appComponent.fetchAllStudentsUseCase
     }
     var outingApplicationUseCase: any OutingApplicationUseCase {
         return appComponent.outingApplicationUseCase
@@ -694,7 +694,7 @@ extension AppComponent: Registration {
         localTable["fetchMyProfileUseCase-any FetchMyProfileUseCase"] = { [unowned self] in self.fetchMyProfileUseCase as Any }
         localTable["changeProfileImageUseCase-any ChangeProfileImageUseCase"] = { [unowned self] in self.changeProfileImageUseCase as Any }
         localTable["withdrawalUseCase-any WithdrawalUseCase"] = { [unowned self] in self.withdrawalUseCase as Any }
-        localTable["fetchAllStudentUseCase-any FetchAllStudentUseCase"] = { [unowned self] in self.fetchAllStudentUseCase as Any }
+        localTable["fetchAllStudentsUseCase-any FetchAllStudentsUseCase"] = { [unowned self] in self.fetchAllStudentsUseCase as Any }
         localTable["remoteUsersDataSource-any RemoteUsersDataSource"] = { [unowned self] in self.remoteUsersDataSource as Any }
         localTable["usersRepository-any UsersRepository"] = { [unowned self] in self.usersRepository as Any }
         localTable["changePasswordUseCase-any ChangePasswordUseCase"] = { [unowned self] in self.changePasswordUseCase as Any }
@@ -922,7 +922,7 @@ extension OutingApplyComponent: Registration {
         keyPathToName[\OutingApplyDependency.fetchOutingAvailableTimeUseCase] = "fetchOutingAvailableTimeUseCase-any FetchOutingAvailableTimeUseCase"
         keyPathToName[\OutingApplyDependency.fetchOutingTypeUseCase] = "fetchOutingTypeUseCase-any FetchOutingTypeUseCase"
         keyPathToName[\OutingApplyDependency.deleteOutingApplicationItemUseCase] = "deleteOutingApplicationItemUseCase-any DeleteOutingApplicationItemUseCase"
-        keyPathToName[\OutingApplyDependency.fetchAllStudentUseCase] = "fetchAllStudentUseCase-any FetchAllStudentUseCase"
+        keyPathToName[\OutingApplyDependency.fetchAllStudentsUseCase] = "fetchAllStudentsUseCase-any FetchAllStudentsUseCase"
         keyPathToName[\OutingApplyDependency.outingApplicationUseCase] = "outingApplicationUseCase-any OutingApplicationUseCase"
     }
 }
