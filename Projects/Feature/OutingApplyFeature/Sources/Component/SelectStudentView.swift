@@ -12,12 +12,12 @@ struct SelectStudentView: View {
             RoundedRectangle(cornerRadius: 5)
                 .strokeBorder(Color.GrayScale.gray5, lineWidth: 1)
                 .frame(height: 50)
-                .overlay(
+                .overlay {
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundStyle(Color.GrayScale.gray10)
                             .frame(width: 24, height: 24)
-
+                        
                         TextField(
                             "학번 또는 이름을 검색하세요.",
                             text: $searchText,
@@ -28,8 +28,8 @@ struct SelectStudentView: View {
                             viewModel.studentName = newValue
                         }
                     }
-                        .padding(.horizontal, 12)
-                )
+                    .padding(.horizontal, 12)
+                }
                 .padding(.horizontal, 24)
 
             ScrollView(showsIndicators: false) {
@@ -113,7 +113,7 @@ struct SelectStudentView: View {
             RoundedRectangle(cornerRadius: 8)
                 .strokeBorder(isSelected ? .PrimaryVariant.primary : Color.GrayScale.gray3, lineWidth: 1)
                 .frame(height: 64)
-                .overlay(
+                .overlay {
                     HStack(spacing: 16) {
                         Circle()
                             .fill(Color.GrayScale.gray5)
@@ -125,7 +125,7 @@ struct SelectStudentView: View {
 
                         Spacer()
                     }
-                )
+                }
         }
     }
 }

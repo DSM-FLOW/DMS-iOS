@@ -118,6 +118,7 @@ struct OutingApplyView: View {
                                             }
                                         }
                                     }
+
                                     OutingTextFieldView("동행인", "동행인 추가 ﹢ ", $selectStudentsText, false)
                                         .padding(.horizontal, 10)
                                         .padding(.vertical, 12)
@@ -137,6 +138,7 @@ struct OutingApplyView: View {
                                         .focused($inFocus, equals: 2)
 
                                 }
+
                                 DMSWideButton(text: "외출 신청하기", color: .PrimaryVariant.primary) {
                                     viewModel.outingTypeTitleApplication = typeText
                                     viewModel.outingReasonApplication = reasonText
@@ -163,6 +165,7 @@ struct OutingApplyView: View {
                             .padding(.horizontal, 24)
                         }
                     }
+
                     if inFocus == 2 {
                         Color.clear.frame(height: 300)
                     }
