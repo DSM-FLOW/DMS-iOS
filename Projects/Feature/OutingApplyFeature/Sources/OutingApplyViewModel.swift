@@ -143,6 +143,7 @@ final class OutingApplyViewModel: BaseViewModel {
             myOutingApplicationItem.companions.forEach {
                 string = (string ?? "") + $0 + ","
             }
+
             self?.outingId = "\(myOutingApplicationItem.id)"
             self?.outingTypeTitle = myOutingApplicationItem.titleType
             self?.outingDate = "\(myOutingApplicationItem.date)"
@@ -150,6 +151,7 @@ final class OutingApplyViewModel: BaseViewModel {
             self?.endTime = myOutingApplicationItem.arrivalTime
             self?.outingCompanions = string ?? ""
             self?.outingReason = myOutingApplicationItem.reason ?? "없음"
+
             if myOutingApplicationItem.status == "APPROVED" {
                 self?.isApplied = true
             } else {
