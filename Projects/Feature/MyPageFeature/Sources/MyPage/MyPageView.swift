@@ -165,6 +165,19 @@ struct MyPageView: View {
                 .padding(.bottom, 5)
 
                 VStack(alignment: .leading, spacing: 0) {
+                    Button {
+                        viewModel.isNavigateBugReport.toggle()
+                    } label: {
+                        myPageOptionRowCardView(title: "버그 제보함")
+                            .dmsFont(.body(.body2), color: .GrayScale.gray6)
+                            .cornerRadius(10, corners: .allCorners)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .myPageOptionBackground()
+                .padding(.bottom, 5)
+
+                VStack(alignment: .leading, spacing: 0) {
                     myPageOptionRowCardView(title: "로그아웃")
                         .dmsFont(.body(.body2), color: .System.error)
                         .onTapGesture(perform: viewModel.logoutButtonDidTap)
