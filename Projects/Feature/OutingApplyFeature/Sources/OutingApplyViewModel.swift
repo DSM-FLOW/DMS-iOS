@@ -21,6 +21,9 @@ final class OutingApplyViewModel: BaseViewModel {
         return "\(outingHourSelectTime):\(outingMinuteSelectTime) ~ \(arrivalHourSelectTime):\(arrivalMinuteSelectTime)"
     }
 
+    @State var currentDate: Date = Date()
+    let changeTime: DateComponents = DateComponents(hour: 18, minute: 0)
+
     /// AvailableTime
     @Published var outingAvailableTime: [OutingEntity] = []
     var currentDayOfWeek: String {
@@ -238,5 +241,21 @@ final class OutingApplyViewModel: BaseViewModel {
         self.selectedStudentString.removeAll { $0 == name }
         self.companionIdsApplication.removeAll { $0 == id }
         self.companionGradeClassNumber.removeAll { $0 == gradeClassNumber }
+    }
+
+    func displayDate() -> Date {
+        let now = Date()
+        let calendar = Calendar.current
+        let changeDateTime = calendar.date(
+            bySettingHour: changeTime.hour!,
+            minute: changeTime.minute!,
+            second: 0, of: now
+        )!
+
+        if now >= changeDateTime {
+            return calendar.date(byAdding: .day, value: 1, to: now)!
+        } else {
+            return now
+        }
     }
 }

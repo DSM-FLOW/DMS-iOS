@@ -11,6 +11,7 @@ public extension SingleOutingAvailableTimeResponseDTO {
     func toDomain() -> OutingEntity {
         OutingEntity(
             id: id,
+            schoolId: schoolId,
             outingTime: outingTime,
             arrivalTime: arrivalTime,
             enabled: enabled,
