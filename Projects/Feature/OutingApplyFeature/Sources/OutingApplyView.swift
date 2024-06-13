@@ -65,11 +65,14 @@ struct OutingApplyView: View {
                                         .padding(.top, 12)
                                         .padding(.bottom, 12)
 
-                                    Text(Date().toDMSOutingApplicationString())
+                                    Text(viewModel.displayDate().toDMSOutingApplicationString())
                                         .dmsFont(.body(.body2), color: .GrayScale.gray6)
                                         .padding(.leading, 20)
                                         .padding(.top, 12)
                                         .padding(.bottom, 12)
+                                }
+                                .onAppear {
+                                    viewModel.currentDate = Date()
                                 }
 
                                 OutingTextFieldView("외출 시간", viewModel.outingApplicationTime, $timeText, true)
