@@ -37,21 +37,7 @@ struct SelectStudentView: View {
                     selectStudentViewCell(
                         studentInfo: studentInfo,
                         isSelected: viewModel.companionIdsApplication.contains(studentInfo.id.uuidString)
-                    ) {
-                        viewModel.insertSelectedStudent(
-                            studentInfo: studentInfo,
-                            name: studentInfo.name,
-                            id: studentInfo.id.uuidString,
-                            gradeClassNumber: studentInfo.gradeClassNumber
-                        )
-                    } removedAction: {
-                        viewModel.deleteSelectedStudent(
-                            studentInfo: studentInfo,
-                            name: studentInfo.name,
-                            gradeClassNumber: studentInfo.gradeClassNumber,
-                            id: studentInfo.id.uuidString
-                        )
-                    }
+                    )
                 }
             }
             .padding(.top, 10)
@@ -68,21 +54,7 @@ struct SelectStudentView: View {
                     selectStudentViewCell(
                         studentInfo: studentInfo,
                         isSelected: viewModel.companionIdsApplication.contains(studentInfo.id.uuidString)
-                    ) {
-                        viewModel.insertSelectedStudent(
-                            studentInfo: studentInfo,
-                            name: studentInfo.name,
-                            id: studentInfo.id.uuidString,
-                            gradeClassNumber: studentInfo.gradeClassNumber
-                        )
-                    } removedAction: {
-                        viewModel.deleteSelectedStudent(
-                            studentInfo: studentInfo,
-                            name: studentInfo.name,
-                            gradeClassNumber: studentInfo.gradeClassNumber,
-                            id: studentInfo.id.uuidString
-                        )
-                    }
+                    )
                 }
             }
             .padding(.top, 8)
@@ -103,12 +75,24 @@ struct SelectStudentView: View {
     @ViewBuilder
     func selectStudentViewCell(
         studentInfo: StudentEntity,
-        isSelected: Bool,
-        selectedAction: @escaping () -> Void,
-        removedAction: @escaping () -> Void
+        isSelected: Bool
     ) -> some View {
         Button {
-            (isSelected ? removedAction : selectedAction)()
+            if isSelected {
+                viewModel.deleteSelectedStudent(
+                    studentInfo: studentInfo,
+                    name: studentInfo.name,
+                    gradeClassNumber: studentInfo.gradeClassNumber,
+                    id: studentInfo.id.uuidString
+                )
+            } else {
+                viewModel.insertSelectedStudent(
+                    studentInfo: studentInfo,
+                    name: studentInfo.name,
+                    id: studentInfo.id.uuidString,
+                    gradeClassNumber: studentInfo.gradeClassNumber
+                )
+            }
         } label: {
             RoundedRectangle(cornerRadius: 8)
                 .strokeBorder(isSelected ? .PrimaryVariant.primary : Color.GrayScale.gray3, lineWidth: 1)
