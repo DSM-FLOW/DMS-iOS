@@ -19,7 +19,7 @@ struct SelectStudentView: View {
                             .frame(width: 24, height: 24)
 
                         TextField(
-                            "학번 또는 이름을 검색하세요.",
+                            "이름을 검색하세요.",
                             text: $searchText,
                             onCommit: viewModel.searchStudentInfo
                         )
