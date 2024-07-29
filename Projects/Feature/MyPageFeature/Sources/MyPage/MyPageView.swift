@@ -141,15 +141,15 @@ struct MyPageView: View {
                             .padding(.horizontal, 10)
                     }
 
-//                    Button {
-//                        viewModel.isNavigateSetNotifcation.toggle()
-//                    } label: {
-//                        myPageOptionRowCardView(title: "알림 설정")
-//                            .dmsFont(.body(.body2), color: .GrayScale.gray6)
-//                    }
-//
-//                    Divider()
-//                        .padding(.horizontal, 10)
+                    Button {
+                        viewModel.isNavigateSetNotifcation.toggle()
+                    } label: {
+                        myPageOptionRowCardView(title: "알림 설정")
+                            .dmsFont(.body(.body2), color: .GrayScale.gray6)
+                    }
+
+                    Divider()
+                        .padding(.horizontal, 10)
 
                     Button {
                         viewModel.isNavigateChangePassword.toggle()

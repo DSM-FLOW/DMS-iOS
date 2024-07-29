@@ -35,6 +35,26 @@ struct SetNotificationView: View {
                 isToggleOn: $viewModel.isAvailableTimeOn
             )
 
+            Text("상벌점")
+                .dmsFont(.title(.title3), color: .GrayScale.gray6)
+                .padding(.bottom, 15)
+
+            notificationToggleView(
+                title: "상벌점 알림",
+                detail: "상벌점이 부여되었을 때 알림을 받아요.",
+                isToggleOn: $viewModel.isRewardOn
+            )
+
+            Text("외출")
+                .dmsFont(.title(.title3), color: .GrayScale.gray6)
+                .padding(.bottom, 15)
+
+            notificationToggleView(
+                title: "외출 신청 알림",
+                detail: "동행자로 외출 신청되었을 때 알림을 받아요.",
+                isToggleOn: $viewModel.isOutingOn
+            )
+
             Spacer()
         }
         .padding(.horizontal, 30)

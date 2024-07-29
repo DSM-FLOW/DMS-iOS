@@ -7,6 +7,8 @@ final class SetNotificationViewModel: BaseViewModel {
     @Published var isNoticeOn = false
     @Published var isTimeSlotOn = false
     @Published var isAvailableTimeOn = false
+    @Published var isRewardOn = false
+    @Published var isOutingOn = false
 
     public init(
         subscribeTopicUseCase: any SubscribeTopicUseCase
