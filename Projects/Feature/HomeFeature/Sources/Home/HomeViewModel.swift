@@ -7,6 +7,7 @@ import NoticeDomainInterface
 import SwiftUI
 
 final class HomeViewModel: BaseViewModel {
+    @Published var isNavigateToAlarm: Bool = false
     @Published var selectedDate = Date()
     @Published var isExistNewNotice = false
     @Published var meals: [String: MealEntity] = [:]

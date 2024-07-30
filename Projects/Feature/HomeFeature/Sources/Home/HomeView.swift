@@ -2,6 +2,7 @@ import BaseFeature
 import DesignSystem
 import SwiftUI
 import UtilityModule
+import HomeFeatureInterface
 
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
@@ -9,9 +10,16 @@ struct HomeView: View {
     @Environment(\.tabbarHidden) var tabbarHidden
     @Environment(\.dmsSelectionTabbKey) var dmsSelectionTabbKey
     @EnvironmentObject var appState: AppState
+    @State var isNavigateToAlarm = false
 
-    init(viewModel: HomeViewModel) {
+    private let alarmFactory: any AlarmFactory
+
+    init(
+        viewModel: HomeViewModel,
+        alarmFactory: any AlarmFactory
+    ) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        self.alarmFactory = alarmFactory
     }
 
     var body: some View {
@@ -88,6 +96,19 @@ struct HomeView: View {
                     .frame(height: 28)
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    print("벨 아이콘이 클릭되었습니다.")
+                    isNavigateToAlarm.toggle()
+                }, label: {
+                    Image(systemName: "bell.fill")
+                        .scaledToFit()
+                        .frame(height: 28)
+                        .foregroundColor(Color.GrayScale.gray5)
+                })
+            }
+        }
         .dmsBackground()
         .dmsBottomSheet(
             isShowing: $isShowingCalendar,
@@ -99,6 +120,16 @@ struct HomeView: View {
                     .padding(.top, 24)
             }
         }
+//        .onChange(of: viewModel.isNavigateToAlarm) { newValue in
+//            withAnimation {
+//                tabbarHidden.wrappedValue = newValue
+//            }
+//        }
+        .navigate(
+            to: alarmFactory.makeView().eraseToAnyView(),
+            when: $isNavigateToAlarm
+        )
+        .environment(\.rootPresentationMode, $isNavigateToAlarm)
     }
 
     @ViewBuilder

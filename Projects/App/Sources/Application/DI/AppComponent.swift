@@ -107,6 +107,9 @@ public extension AppComponent {
     var homeFactory: any HomeFactory {
         HomeComponent(parent: self)
     }
+    var alarmFactory: any AlarmFactory {
+        AlarmComponent(parent: self)
+    }
     var studyRoomDetailFactory: any StudyRoomDetailFactory {
         StudyRoomDetailComponent(parent: self)
     }
