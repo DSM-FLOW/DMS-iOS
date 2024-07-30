@@ -4,6 +4,8 @@ import Moya
 
 public enum NotificationAPI {
     case subscribeTopic(token: String, topic: TopicType)
+    case unsubscribeTopic(token: String, topic: TopicType)
+    case fetchNotificationList
 }
 
 extension NotificationAPI: DmsAPI {
@@ -17,6 +19,10 @@ extension NotificationAPI: DmsAPI {
         switch self {
         case .subscribeTopic:
             return "/topic"
+        case .unsubscribeTopic:
+            return "/topic"
+        case .fetchNotificationList:
+            return ""
         }
     }
 
@@ -24,6 +30,10 @@ extension NotificationAPI: DmsAPI {
         switch self {
         case .subscribeTopic:
             return .post
+        case .fetchNotificationList:
+            return .get
+        case .unsubscribeTopic:
+            return .delete
         }
     }
 
@@ -32,11 +42,21 @@ extension NotificationAPI: DmsAPI {
         case let .subscribeTopic(token, topic):
             return .requestParameters(
                 parameters: [
-                    "device_token": token,
+                    "token": token,
                     "topic": topic
                 ],
                 encoding: JSONEncoding.default
             )
+        case let .unsubscribeTopic(token, topic):
+            return .requestParameters(
+                parameters: [
+                    "token": token,
+                    "topic": topic
+                ],
+                encoding: JSONEncoding.default
+            )
+        default:
+            return .requestPlain
         }
     }
 
@@ -46,7 +66,7 @@ extension NotificationAPI: DmsAPI {
 
     public var errorMap: [Int: ErrorType] {
         switch self {
-        case .subscribeTopic:
+        case .subscribeTopic, .fetchNotificationList, .unsubscribeTopic:
             return [
                 400: .badRequest,
                 401: .tokenExpired,

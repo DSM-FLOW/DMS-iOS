@@ -241,6 +241,9 @@ private class SetNotificationDependency51c11ff0b19da5469478Provider: SetNotifica
     var subscribeTopicUseCase: any SubscribeTopicUseCase {
         return appComponent.subscribeTopicUseCase
     }
+    var unsubscribeTopicUseCase: any UnsubscribeTopicUseCase {
+        return appComponent.unsubscribeTopicUseCase
+    }
     private let appComponent: AppComponent
     init(appComponent: AppComponent) {
         self.appComponent = appComponent
@@ -440,6 +443,9 @@ private class HomeDependency443c4e1871277bd8432aProvider: HomeDependency {
     var fetchWhetherNewNoticeUseCase: any FetchWhetherNewNoticeUseCase {
         return appComponent.fetchWhetherNewNoticeUseCase
     }
+    var alarmFactory: any AlarmFactory {
+        return appComponent.alarmFactory
+    }
     private let appComponent: AppComponent
     init(appComponent: AppComponent) {
         self.appComponent = appComponent
@@ -448,6 +454,19 @@ private class HomeDependency443c4e1871277bd8432aProvider: HomeDependency {
 /// ^->AppComponent->HomeComponent
 private func factory67229cdf0f755562b2b1f47b58f8f304c97af4d5(_ component: NeedleFoundation.Scope) -> AnyObject {
     return HomeDependency443c4e1871277bd8432aProvider(appComponent: parent1(component) as! AppComponent)
+}
+private class AlarmDependency31d61545df7487e69c4bProvider: AlarmDependency {
+    var fetchNotificationListUseCase: any FetchNotificationListUseCase {
+        return appComponent.fetchNotificationListUseCase
+    }
+    private let appComponent: AppComponent
+    init(appComponent: AppComponent) {
+        self.appComponent = appComponent
+    }
+}
+/// ^->AppComponent->AlarmComponent
+private func factoryb95a2d3745839bf7387af47b58f8f304c97af4d5(_ component: NeedleFoundation.Scope) -> AnyObject {
+    return AlarmDependency31d61545df7487e69c4bProvider(appComponent: parent1(component) as! AppComponent)
 }
 private class ApplyPageDependency3fe4e7c221b14c86d427Provider: ApplyPageDependency {
     var studyRoomListFactory: any StudyRoomListFactory {
@@ -649,6 +668,8 @@ extension AppComponent: Registration {
         localTable["remoteNotificationDataSource-any RemoteNotificationDataSource"] = { [unowned self] in self.remoteNotificationDataSource as Any }
         localTable["notificationRepository-any NotificationRepository"] = { [unowned self] in self.notificationRepository as Any }
         localTable["subscribeTopicUseCase-any SubscribeTopicUseCase"] = { [unowned self] in self.subscribeTopicUseCase as Any }
+        localTable["unsubscribeTopicUseCase-any UnsubscribeTopicUseCase"] = { [unowned self] in self.unsubscribeTopicUseCase as Any }
+        localTable["fetchNotificationListUseCase-any FetchNotificationListUseCase"] = { [unowned self] in self.fetchNotificationListUseCase as Any }
         localTable["schoolCodeFactory-any SchoolCodeFactory"] = { [unowned self] in self.schoolCodeFactory as Any }
         localTable["findIDFactory-any FindIDFactory"] = { [unowned self] in self.findIDFactory as Any }
         localTable["signinFactory-any SigninFactory"] = { [unowned self] in self.signinFactory as Any }
@@ -665,6 +686,7 @@ extension AppComponent: Registration {
         localTable["signupTermsFactory-any SignupTermsFactory"] = { [unowned self] in self.signupTermsFactory as Any }
         localTable["mainTabFactory-any MainTabFactory"] = { [unowned self] in self.mainTabFactory as Any }
         localTable["homeFactory-any HomeFactory"] = { [unowned self] in self.homeFactory as Any }
+        localTable["alarmFactory-any AlarmFactory"] = { [unowned self] in self.alarmFactory as Any }
         localTable["studyRoomDetailFactory-any StudyRoomDetailFactory"] = { [unowned self] in self.studyRoomDetailFactory as Any }
         localTable["noticeListFactory-any NoticeListFactory"] = { [unowned self] in self.noticeListFactory as Any }
         localTable["myPageFactory-any MyPageFactory"] = { [unowned self] in self.myPageFactory as Any }
@@ -795,6 +817,7 @@ extension MainTabComponent: Registration {
 extension SetNotificationComponent: Registration {
     public func registerItems() {
         keyPathToName[\SetNotificationDependency.subscribeTopicUseCase] = "subscribeTopicUseCase-any SubscribeTopicUseCase"
+        keyPathToName[\SetNotificationDependency.unsubscribeTopicUseCase] = "unsubscribeTopicUseCase-any UnsubscribeTopicUseCase"
     }
 }
 extension MyPageComponent: Registration {
@@ -868,6 +891,12 @@ extension HomeComponent: Registration {
     public func registerItems() {
         keyPathToName[\HomeDependency.fetchMealListUseCase] = "fetchMealListUseCase-any FetchMealListUseCase"
         keyPathToName[\HomeDependency.fetchWhetherNewNoticeUseCase] = "fetchWhetherNewNoticeUseCase-any FetchWhetherNewNoticeUseCase"
+        keyPathToName[\HomeDependency.alarmFactory] = "alarmFactory-any AlarmFactory"
+    }
+}
+extension AlarmComponent: Registration {
+    public func registerItems() {
+        keyPathToName[\AlarmDependency.fetchNotificationListUseCase] = "fetchNotificationListUseCase-any FetchNotificationListUseCase"
     }
 }
 extension ApplyPageComponent: Registration {
@@ -970,6 +999,7 @@ private func registerProviderFactory(_ componentPath: String, _ factory: @escapi
     registerProviderFactory("^->AppComponent->RootComponent", factory264bfc4d4cb6b0629b40f47b58f8f304c97af4d5)
     registerProviderFactory("^->AppComponent->SigninComponent", factory2882a056d84a613debccf47b58f8f304c97af4d5)
     registerProviderFactory("^->AppComponent->HomeComponent", factory67229cdf0f755562b2b1f47b58f8f304c97af4d5)
+    registerProviderFactory("^->AppComponent->AlarmComponent", factoryb95a2d3745839bf7387af47b58f8f304c97af4d5)
     registerProviderFactory("^->AppComponent->ApplyPageComponent", factory45f688c5d4c7f313fc8df47b58f8f304c97af4d5)
     registerProviderFactory("^->AppComponent->AuthenticationEmailComponent", factory8798d0becd9d2870112af47b58f8f304c97af4d5)
     registerProviderFactory("^->AppComponent->ChangePasswordComponent", factoryab7c4d87dab53e0a51b9f47b58f8f304c97af4d5)

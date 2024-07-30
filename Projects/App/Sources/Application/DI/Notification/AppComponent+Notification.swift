@@ -20,4 +20,16 @@ public extension AppComponent {
             SubscribeTopicUseCaseImpl(notificationRepository: notificationRepository)
         }
     }
+
+    var unsubscribeTopicUseCase: any UnsubscribeTopicUseCase {
+        shared {
+            UnsubscribeTopicUseCaseImpl(notificationRepository: notificationRepository)
+        }
+    }
+
+    var fetchNotificationListUseCase: any FetchNotificationListUseCase {
+        shared {
+            FetchNotificationListUseCaseImpl(notificationRepository: notificationRepository)
+        }
+    }
 }
