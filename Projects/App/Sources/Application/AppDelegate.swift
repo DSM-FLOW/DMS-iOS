@@ -102,7 +102,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
     ) {
-        print("APNS token: \(deviceToken)")
         Messaging.messaging().apnsToken = deviceToken
     }
 
@@ -122,7 +121,6 @@ extension AppDelegate: MessagingDelegate {
         didReceiveRegistrationToken fcmToken: String?
     ) {
         let token = String(describing: fcmToken)
-        print("Firebase registration token: \(token)")
 
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(
