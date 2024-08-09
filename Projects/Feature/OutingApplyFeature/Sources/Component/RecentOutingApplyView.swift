@@ -3,6 +3,7 @@ import SwiftUI
 
 struct RecentOutingApplyView: View {
     @StateObject var viewModel: OutingApplyViewModel
+    @Environment(\.dismiss) private var dismiss
     let date: String
     let type: String
     let isAccepted: Bool
@@ -63,6 +64,7 @@ struct RecentOutingApplyView: View {
                     Button("취소", role: .cancel) {}
                     Button("확인", role: .destructive) {
                         viewModel.confirmDeleteOutingApplicationItemButtonDidClicked()
+                        dismiss()
                     }
                 } message: {
                     Text("외출 신청을 취소하시겠습니까?")

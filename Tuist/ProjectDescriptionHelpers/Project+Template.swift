@@ -15,44 +15,13 @@ public enum MicroFeatureTarget {
 }
 
 public extension Project {
-    @available(*, deprecated)
     static func makeModule(
         name: String,
-        platform: Platform = .iOS,
-        product: Product,
-        packages: [Package] = [],
-        deploymentTarget: DeploymentTarget? = env.deploymentTarget,
-        dependencies: [TargetDependency] = [],
-        testDependencies: [TargetDependency] = [.SPM.Quick, .SPM.Nimble],
-        sources: SourceFilesList = ["Sources/**"],
-        resources: ResourceFileElements? = nil,
-        demoResources: ResourceFileElements? = nil,
-        infoPlist: InfoPlist = .default,
-        hasDemoApp: Bool = false
-    ) -> Project {
-        return project(
-            name: name,
-            platform: platform,
-            product: product,
-            packages: packages,
-            deploymentTarget: deploymentTarget,
-            dependencies: dependencies,
-            testDependencies: testDependencies,
-            sources: sources,
-            resources: resources,
-            demoResources: demoResources,
-            infoPlist: infoPlist,
-            hasDemoApp: hasDemoApp
-        )
-    }
-    
-    static func makeModule(
-        name: String,
-        platform: Platform = env.platform,
+        destination: ProjectDescription.Destinations = env.destination,
         product: Product,
         targets: Set<MicroFeatureTarget>,
         packages: [Package] = [],
-        deploymentTarget: DeploymentTarget? = env.deploymentTarget,
+        deploymentTarget: DeploymentTargets? = env.deploymentTarget,
         externalDependencies: [TargetDependency] = [],
         internalDependencies: [TargetDependency] = [],
         interfaceDependencies: [TargetDependency] = [.Shared.UtilityModule],
@@ -63,7 +32,8 @@ public extension Project {
         sources: SourceFilesList = .sources,
         resources: ResourceFileElements? = nil,
         settings: SettingsDictionary = [:],
-        additionalPlistRows: [String: ProjectDescription.InfoPlist.Value] = [:],
+        additionalPlistRows: [String: ProjectDescription.Plist.Value] = [:],
+//        additionalPlistRows: [String: ProjectDescription.InfoPlist.Value] = [:], 3.15.0
         additionalFiles: [FileElement] = []
     ) -> Project {
         let scripts: [TargetScript] = isCI ? [] : [.swiftLint]
@@ -98,12 +68,11 @@ public extension Project {
         if targets.contains(.interface) {
             dependencies.append(.target(name: "\(name)Interface"))
             allTargets.append(
-                Target(
+                Target.target(
                     name: "\(name)Interface",
-                    platform: platform,
+                    destinations: destination,
                     product: .framework,
                     bundleId: "\(env.organizationName).\(name)Interface",
-                    deploymentTarget: deploymentTarget,
                     infoPlist: .default,
                     sources: .interface,
                     scripts: scripts,
@@ -115,15 +84,14 @@ public extension Project {
 
         // MARK: - Sources
         allTargets.append(
-            Target(
+            Target.target(
                 name: name,
-                platform: platform,
+                destinations: destination,
                 product: product,
                 bundleId: "\(env.organizationName).\(name)",
-                deploymentTarget: deploymentTarget,
+                deploymentTargets: deploymentTarget,
                 infoPlist: .extendingDefault(with: additionalPlistRows),
                 sources: sources,
-                resources: resources,
                 scripts: scripts,
                 dependencies: dependencies
             )
@@ -132,12 +100,12 @@ public extension Project {
         // MARK: - Testing
         if targets.contains(.testing) && targets.contains(.interface) {
             allTargets.append(
-                Target(
+                Target.target(
                     name: "\(name)Testing",
-                    platform: platform,
+                    destinations: destination,
                     product: .framework,
                     bundleId: "\(env.organizationName).\(name)Testing",
-                    deploymentTarget: deploymentTarget,
+                    deploymentTargets: deploymentTarget,
                     infoPlist: .default,
                     sources: .testing,
                     scripts: scripts,
@@ -160,12 +128,12 @@ public extension Project {
         // MARK: - Unit Test
         if targets.contains(.unitTest) {
             allTargets.append(
-                Target(
+                Target.target(
                     name: "\(name)Tests",
-                    platform: platform,
+                    destinations: destination,
                     product: .unitTests,
                     bundleId: "\(env.organizationName).\(name)Tests",
-                    deploymentTarget: deploymentTarget,
+                    deploymentTargets: deploymentTarget,
                     infoPlist: .default,
                     sources: .unitTests,
                     scripts: scripts,
@@ -177,12 +145,12 @@ public extension Project {
         // MARK: - UI Test
         if targets.contains(.uiTest) {
             allTargets.append(
-                Target(
+                Target.target(
                     name: "\(name)UITests",
-                    platform: platform,
+                    destinations: destination,
                     product: .uiTests,
                     bundleId: "\(env.organizationName).\(name)UITests",
-                    deploymentTarget: deploymentTarget,
+                    deploymentTargets: deploymentTarget,
                     infoPlist: .default,
                     scripts: scripts,
                     dependencies: testTargetDependencies + uiTestDependencies
@@ -198,12 +166,12 @@ public extension Project {
                 demoDependencies.append(.target(name: "\(name)Testing"))
             }
             allTargets.append(
-                Target(
+                Target.target(
                     name: "\(name)DemoApp",
-                    platform: platform,
+                    destinations: destination,
                     product: .app,
                     bundleId: "\(env.organizationName).\(name)DemoApp",
-                    deploymentTarget: deploymentTarget,
+                    deploymentTargets: deploymentTarget,
                     infoPlist: .extendingDefault(with: [
                         "UIMainStoryboardFile": "",
                         "UILaunchStoryboardName": "LaunchScreen",
@@ -232,102 +200,9 @@ public extension Project {
     }
 }
 
-public extension Project {
-    @available(*, deprecated)
-    static func project(
-        name: String,
-        platform: Platform,
-        product: Product,
-        organizationName: String = env.organizationName,
-        packages: [Package] = [],
-        deploymentTarget: DeploymentTarget? = env.deploymentTarget,
-        dependencies: [TargetDependency] = [],
-        testDependencies: [TargetDependency] = [],
-        sources: SourceFilesList,
-        resources: ResourceFileElements? = nil,
-        demoResources: ResourceFileElements? = nil,
-        infoPlist: InfoPlist,
-        hasDemoApp: Bool = false
-    ) -> Project {
-        let isCI = (ProcessInfo.processInfo.environment["TUIST_CI"] ?? "0") == "1" ? true : false
-        let scripts: [TargetScript] = isCI ? [] : [.swiftLint]
-        let settings: Settings = .settings(
-            base: env.baseSetting,
-            configurations: [
-                .debug(name: .dev, xcconfig: isCI ? nil : .relativeToXCConfig(type: .dev, name: name)),
-                .release(name: .prod, xcconfig: isCI ? nil : .relativeToXCConfig(type: .prod, name: name))
-            ], defaultSettings: .recommended)
-        let appTarget = Target(
-            name: name,
-            platform: platform,
-            product: product,
-            bundleId: "\(organizationName).\(name)",
-            deploymentTarget: deploymentTarget,
-            infoPlist: infoPlist,
-            sources: sources,
-            resources: resources,
-            scripts: scripts,
-            dependencies: dependencies
-        )
-        let demoSource: SourceFilesList = ["Demo/Sources/**"]
-        let demoSources: SourceFilesList = SourceFilesList(globs: sources.globs + demoSource.globs)
-
-        let demoAppTarget = Target(
-            name: "\(name)DemoApp",
-            platform: platform,
-            product: .app,
-            bundleId: "\(organizationName).\(name)DemoApp",
-            deploymentTarget: env.deploymentTarget,
-            infoPlist: .extendingDefault(with: [
-                "UIMainStoryboardFile": "",
-                "UILaunchStoryboardName": "LaunchScreen",
-                "ENABLE_TESTS": .boolean(true),
-            ]),
-            sources: demoSources,
-            resources: ["Demo/Resources/**"],
-            scripts: scripts,
-            dependencies: [
-                .target(name: name)
-            ]
-        )
-
-        let schemes: [Scheme] = hasDemoApp
-        ? [.makeScheme(target: .dev, name: name), .makeDemoScheme(target: .dev, name: name)]
-        : [.makeScheme(target: .dev, name: name)]
-
-        let testTargetDependencies: [TargetDependency] = hasDemoApp
-        ? [.target(name: "\(name)DemoApp")]
-        : [.target(name: name)]
-
-        let testTarget = Target(
-            name: "\(name)Tests",
-            platform: platform,
-            product: .unitTests,
-            bundleId: "\(organizationName).\(name)Tests",
-            deploymentTarget: deploymentTarget,
-            infoPlist: .default,
-            sources: ["Tests/**"],
-            dependencies: testTargetDependencies + testDependencies
-        )
-
-        let targets: [Target] = hasDemoApp
-        ? [appTarget, testTarget, demoAppTarget]
-        : [appTarget, testTarget]
-
-        return Project(
-            name: name,
-            organizationName: organizationName,
-            packages: packages,
-            settings: settings,
-            targets: targets,
-            schemes: schemes
-        )
-    }
-}
-
 extension Scheme {
     static func makeScheme(target: ConfigurationName, name: String) -> Scheme {
-        return Scheme(
+        return Scheme.scheme(
             name: name,
             shared: true,
             buildAction: .buildAction(targets: ["\(name)"]),
@@ -342,8 +217,9 @@ extension Scheme {
             analyzeAction: .analyzeAction(configuration: target)
         )
     }
+    
     static func makeDemoScheme(target: ConfigurationName, name: String) -> Scheme {
-        return Scheme(
+        return Scheme.scheme(
             name: name,
             shared: true,
             buildAction: .buildAction(targets: ["\(name)DemoApp"]),

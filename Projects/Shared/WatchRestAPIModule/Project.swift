@@ -3,10 +3,10 @@ import ProjectDescriptionHelpers
 
 let project = Project.makeModule(
     name: "WatchRestAPIModule",
-    platform: .watchOS,
+    destination: .watchOS,
     product: .staticLibrary,
     targets: [],
-    deploymentTarget: .watchOS(targetVersion: "7.0"),
+    deploymentTarget: .watchOS("9.0"),
     externalDependencies: [
         .SPM.Moya
     ]
