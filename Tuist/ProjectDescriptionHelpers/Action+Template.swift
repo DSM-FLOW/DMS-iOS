@@ -19,20 +19,9 @@ public extension TargetScript {
         basedOnDependencyAnalysis: false
     )
 
-    static let googleInfoPlistScripts = TargetScript.pre(
-        script: """
-                    case "${CONFIGURATION}" in
-                        "DEV" )
-                            cp -r "$SRCROOT/App/Firebase/GoogleService-Dev-Info.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
-                        "STAGE" )
-                            cp -r "$SRCROOT/App/Firebase/GoogleService-Stage-Info.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
-                        "PROD" )
-                            cp -r "$SRCROOT/App/Firebase/GoogleService-Prod-Info.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
-                        *)
-                        ;;
-                    esac
-                    """,
-        name: "GoogleService-Info.plist",
+    static let googleService = TargetScript.pre(
+        path: .relativeToRoot("Scripts/GoogleServiceScript.sh"),
+        name: "Google Service",
         basedOnDependencyAnalysis: false
     )
 }

@@ -1,4 +1,4 @@
-// swift-tools-version:5.10
+// swift-tools-version:5.8
 
 import PackageDescription
 
@@ -27,16 +27,30 @@ import PackageDescription
 #endif
 
 let package = Package(
-    name: "PackageName",
+    name: "ThirdPartyLib",
     platforms: [.iOS(.v15), .watchOS(.v9)],
+    products: [.library(name: "ThirdPartyLib", targets: ["ThirdPartyLib"])],
     dependencies: [
-        .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "5.0.1")),
-        .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "10.0.0")),
-        .package(url: "https://github.com/uber/needle.git", .upToNextMajor(from: "0.19.0")),
+        .package(url: "https://github.com/Quick/Quick.git", .upToNextMajor(from: "7.6.0")),
+        .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "13.0.0")),
+        .package(url: "https://github.com/uber/needle.git", .upToNextMajor(from: "0.24.0")),
         .package(url: "https://github.com/team-aliens/Moya.git", branch: "master"),
-        .package(url: "https://github.com/onevcat/Kingfisher.git", .upToNextMajor(from: "7.0")),
-        .package(url: "https://github.com/Swinject/Swinject.git", exact: "2.8.3"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk", .upToNextMajor(from: "10.0.0"))
+        .package(url: "https://github.com/onevcat/Kingfisher.git", .upToNextMajor(from: "7.10.0")),
+        .package(url: "https://github.com/Swinject/Swinject.git", .upToNextMajor(from: "2.9.0")),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.0.0"))
     ],
-    targets: []
+    targets: [
+        .target(
+            name: "ThirdPartyLib",
+            dependencies: [
+                "Quick",
+                "Nimble",
+                "NeedleFoundation",
+                "Moya",
+                "Kingfisher",
+                "Swinject",
+                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk")
+            ]
+        )
+    ]
 )

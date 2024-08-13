@@ -5,7 +5,7 @@
 
 #if os(macOS)
   import AppKit.NSFont
-#elseif os(iOS) || os(tvOS) || os(watchOS)
+#elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
   import UIKit.UIFont
 #endif
 #if canImport(SwiftUI)
@@ -18,8 +18,8 @@
 // MARK: - Fonts
 
 // swiftlint:disable identifier_name line_length type_body_length
-public enum WatchDesignSystemFontFamily {
-  public enum NotoSansKR {
+public enum WatchDesignSystemFontFamily: Sendable {
+  public enum NotoSansKR: Sendable {
     public static let black = WatchDesignSystemFontConvertible(name: "NotoSansKR-Black", family: "Noto Sans KR", path: "NotoSansKR-Black.otf")
     public static let bold = WatchDesignSystemFontConvertible(name: "NotoSansKR-Bold", family: "Noto Sans KR", path: "NotoSansKR-Bold.otf")
     public static let light = WatchDesignSystemFontConvertible(name: "NotoSansKR-Light", family: "Noto Sans KR", path: "NotoSansKR-Light.otf")
@@ -37,14 +37,14 @@ public enum WatchDesignSystemFontFamily {
 
 // MARK: - Implementation Details
 
-public struct WatchDesignSystemFontConvertible {
+public struct WatchDesignSystemFontConvertible: Sendable {
   public let name: String
   public let family: String
   public let path: String
 
   #if os(macOS)
   public typealias Font = NSFont
-  #elseif os(iOS) || os(tvOS) || os(watchOS)
+  #elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
   public typealias Font = UIFont
   #endif
 
@@ -63,7 +63,7 @@ public struct WatchDesignSystemFontConvertible {
     }
     #if os(macOS)
     return SwiftUI.Font.custom(font.fontName, size: font.pointSize)
-    #elseif os(iOS) || os(tvOS) || os(watchOS)
+    #elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
     return SwiftUI.Font(font)
     #endif
   }
@@ -83,7 +83,7 @@ public struct WatchDesignSystemFontConvertible {
 
 public extension WatchDesignSystemFontConvertible.Font {
   convenience init?(font: WatchDesignSystemFontConvertible, size: CGFloat) {
-    #if os(iOS) || os(tvOS) || os(watchOS)
+    #if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
     if !UIFont.fontNames(forFamilyName: font.family).contains(font.name) {
       font.register()
     }

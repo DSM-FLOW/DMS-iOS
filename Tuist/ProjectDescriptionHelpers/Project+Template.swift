@@ -26,14 +26,16 @@ public extension Project {
         internalDependencies: [TargetDependency] = [],
         interfaceDependencies: [TargetDependency] = [.Shared.UtilityModule],
         testingDependencies: [TargetDependency] = [.Domain.BaseDomain],
-        unitTestDependencies: [TargetDependency] = [.SPM.Quick, .SPM.Nimble],
+        unitTestDependencies: [TargetDependency] = [
+            .external(name: "Quick"),
+            .external(name: "Nimble")
+        ],
         uiTestDependencies: [TargetDependency] = [],
         demoDependencies: [TargetDependency] = [],
         sources: SourceFilesList = .sources,
         resources: ResourceFileElements? = nil,
         settings: SettingsDictionary = [:],
         additionalPlistRows: [String: ProjectDescription.Plist.Value] = [:],
-//        additionalPlistRows: [String: ProjectDescription.InfoPlist.Value] = [:], 3.15.0
         additionalFiles: [FileElement] = []
     ) -> Project {
         let scripts: [TargetScript] = isCI ? [] : [.swiftLint]
@@ -68,7 +70,7 @@ public extension Project {
         if targets.contains(.interface) {
             dependencies.append(.target(name: "\(name)Interface"))
             allTargets.append(
-                Target.target(
+                .target(
                     name: "\(name)Interface",
                     destinations: destination,
                     product: .framework,
@@ -84,7 +86,7 @@ public extension Project {
 
         // MARK: - Sources
         allTargets.append(
-            Target.target(
+            .target(
                 name: name,
                 destinations: destination,
                 product: product,
@@ -92,6 +94,7 @@ public extension Project {
                 deploymentTargets: deploymentTarget,
                 infoPlist: .extendingDefault(with: additionalPlistRows),
                 sources: sources,
+                resources: resources,
                 scripts: scripts,
                 dependencies: dependencies
             )
@@ -100,7 +103,7 @@ public extension Project {
         // MARK: - Testing
         if targets.contains(.testing) && targets.contains(.interface) {
             allTargets.append(
-                Target.target(
+                .target(
                     name: "\(name)Testing",
                     destinations: destination,
                     product: .framework,
@@ -128,7 +131,7 @@ public extension Project {
         // MARK: - Unit Test
         if targets.contains(.unitTest) {
             allTargets.append(
-                Target.target(
+                .target(
                     name: "\(name)Tests",
                     destinations: destination,
                     product: .unitTests,
@@ -145,7 +148,7 @@ public extension Project {
         // MARK: - UI Test
         if targets.contains(.uiTest) {
             allTargets.append(
-                Target.target(
+                .target(
                     name: "\(name)UITests",
                     destinations: destination,
                     product: .uiTests,
@@ -166,7 +169,7 @@ public extension Project {
                 demoDependencies.append(.target(name: "\(name)Testing"))
             }
             allTargets.append(
-                Target.target(
+                .target(
                     name: "\(name)DemoApp",
                     destinations: destination,
                     product: .app,

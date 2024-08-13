@@ -8,6 +8,6 @@ let project = Project.makeModule(
     targets: [],
     deploymentTarget: .watchOS("9.0"),
     externalDependencies: [
-        .SPM.Moya
+        .external(name: "Moya")
     ]
 )

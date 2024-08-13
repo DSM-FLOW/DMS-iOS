@@ -17,11 +17,11 @@ let settings: Settings =
               configurations: configurations,
               defaultSettings: .recommended)
 
-let scripts: [TargetScript] = isCI ? [] : [.swiftLint, .widgetNeedle, .needle]
+let scripts: [TargetScript] = isCI ? [] : [.swiftLint, .widgetNeedle, .needle, .googleService]
 let widgetScripts: [TargetScript] = isCI ? [] : [.widgetNeedle]
 
 let targets: [Target] = [
-    Target.target(
+    .target(
         name: env.targetName,
         destinations: .iOS,
         product: .app,
@@ -60,7 +60,7 @@ let targets: [Target] = [
             .Domain.StudentsDomain,
             .Domain.UsersDomain,
             .Domain.NotificationDomain,
-            .SPM.FirebaseMessaging,
+            .external(name: "FirebaseMessaging"),
             .target(name: "\(env.appName)Widget"),
             .target(name: "\(env.appName)WatchApp")
         ],
@@ -72,7 +72,7 @@ let targets: [Target] = [
         product: .unitTests,
         bundleId: "\(env.organizationName).\(env.targetName)Tests",
         deploymentTargets: env.deploymentTarget,
-        infoPlist: .default,
+        infoPlist: .file(path: "Tests/Support/Tests-Info.plist"),
         sources: ["Tests/**"],
         dependencies: [
             .target(name: env.targetName)
@@ -101,7 +101,7 @@ let targets: [Target] = [
         destinations: .watchOS,
         product: .app,
         productName: "\(env.appName)WatchApp",
-        bundleId: "\(env.organizationName).\(env.targetName).watchkitapp",
+        bundleId: "\(env.organizationName).\(env.targetName).watchapp",
         deploymentTargets: .watchOS("9.0"),
         infoPlist: .file(path: "WatchApp/Support/Info.plist"),
         sources: ["WatchApp/Sources/**"],
@@ -109,7 +109,7 @@ let targets: [Target] = [
         dependencies: [
             .Shared.WatchDesignSystem,
             .Shared.WatchRestAPIModule,
-            .SPM.Swinject
+            .external(name: "Swinject")
         ]
     )
 ]
@@ -126,7 +126,7 @@ let schemes: [Scheme] = [
                 coverage: true,
                 codeCoverageTargets: ["\(env.targetName)"]
             )
-        ), 
+        ),
         runAction: .runAction(configuration: .dev),
         archiveAction: .archiveAction(configuration: .dev),
         profileAction: .profileAction(configuration: .dev),
@@ -154,12 +154,11 @@ let schemes: [Scheme] = [
     )
 ]
 
-let project: Project =
-    .init(
-        name: env.targetName,
-        organizationName: env.organizationName,
-        packages: [.FirebaseMessaging],
-        settings: settings,
-        targets: targets,
-        schemes: schemes
-    )
+let project = Project(
+    name: env.targetName,
+    organizationName: env.organizationName,
+    packages: [/*.FirebaseMessaging*/],
+    settings: settings,
+    targets: targets,
+    schemes: schemes
+)

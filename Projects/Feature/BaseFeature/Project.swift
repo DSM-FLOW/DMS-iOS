@@ -6,7 +6,7 @@ let project = Project.makeModule(
     product: .framework,
     targets: [.unitTest],
     externalDependencies: [
-        .SPM.FirebaseMessaging
+        .external(name: "FirebaseMessaging")
     ],
     internalDependencies: [
         .Shared.DesignSystem,
