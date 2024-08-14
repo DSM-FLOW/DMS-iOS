@@ -1,14 +1,13 @@
 #!/bin/sh
 
-cd ../
-git clone https://github.com/team-aliens/DMS-XCConfig.git
-mv DMS-XCConfig/XCConfig/ .
-
 set -e
 echo "dir"
 pwd
 
-cd ..
+cd ../
+git clone https://github.com/team-aliens/DMS-XCConfig.git
+mv DMS-XCConfig/XCConfig/ .
+
 echo "dir"
 pwd
 
