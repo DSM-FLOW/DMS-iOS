@@ -5,8 +5,12 @@ git clone https://github.com/team-aliens/DMS-XCConfig.git
 mv DMS-XCConfig/XCConfig/ .
 
 set -e
-cd ..
+echo "dir"
+pwd
 
+cd ..
+echo "dir"
+pwd
 
 curl https://mise.run | sh
 export PATH="$HOME/.local/bin:$PATH"
