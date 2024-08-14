@@ -7,30 +7,21 @@ mv DMS-XCConfig/XCConfig/ .
 set -e
 cd ..
 
-curl https://mise.jdx.dev/install.sh | sh
 
-#export PATH="$HOME/.local/bin:$PATH"
-#echo "Current PATH: $PATH"
+curl https://mise.run | sh
+export PATH="$HOME/.local/bin:$PATH"
 
-echo "mise version"
-mise --version
-echo "mise install"
-mise install
+mise install tuist
 eval "$(mise activate bash --shims)"
-
-#echo "mise doctor"
-#mise doctor
-
-mise run --verbose
-mise install tuist@4.23.0
-mise use -g tuist @4.23.0
+echo "👉 Setting mise globally:"
+mise use -g tuist
 
 echo "tuist version"
-mise exec -- tuist version
+tuist version
 
 echo "tuist install"
-mise exec -- tuist install
+tuist install
 
 echo "tuist generate"
 TUIST_CI=1
-mise exec -- tuist generate
+tuist generate
