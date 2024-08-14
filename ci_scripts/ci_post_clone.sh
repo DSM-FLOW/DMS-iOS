@@ -9,8 +9,8 @@ cd ..
 
 curl https://mise.jdx.dev/install.sh | sh
 
-export PATH="$HOME/.local/bin:$PATH"
-echo "Current PATH: $PATH"
+#export PATH="$HOME/.local/bin:$PATH"
+#echo "Current PATH: $PATH"
 
 echo "mise version"
 mise --version
@@ -18,8 +18,12 @@ echo "mise install"
 mise install
 eval "$(mise activate bash --shims)"
 
-echo "mise doctor"
-mise doctor
+#echo "mise doctor"
+#mise doctor
+
+mise run --verbose
+mise install tuist@4.23.0
+mise use -g tuist @4.23.0
 
 echo "tuist version"
 mise exec -- tuist version
