@@ -21,8 +21,12 @@ eval "$(mise activate bash --shims)"
 echo "mise doctor"
 mise doctor
 
+echo "tuist version"
+mise exec -- tuist version
+
 echo "tuist install"
-mise x tuist install
+mise exec -- tuist install
+
 echo "tuist generate"
 TUIST_CI=1
-mise x tuist generate
+mise exec -- tuist generate
