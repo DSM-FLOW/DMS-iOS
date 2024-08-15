@@ -6,6 +6,10 @@ cd ../
 git clone https://github.com/team-aliens/DMS-XCConfig.git
 mv DMS-XCConfig/XCConfig/ .
 
+cd XCConfig
+ls
+cd ..
+
 pwd
 set -e
 
