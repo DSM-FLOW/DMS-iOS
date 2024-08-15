@@ -1,31 +1,24 @@
 #!/bin/sh
 
+pwd
+
 cd ../
 git clone https://github.com/team-aliens/DMS-XCConfig.git
 mv DMS-XCConfig/XCConfig/ .
 
+pwd
 set -e
-echo "dir"
-pwd
-
-cd ..
-echo "dir"
-pwd
 
 curl https://mise.run | sh
 export PATH="$HOME/.local/bin:$PATH"
+echo "Current PATH: $PATH"
 
-mise install tuist
+echo "mise version"
+mise --version
+
+echo "mise install"
+mise install # Installs the version from .mise.toml
 eval "$(mise activate bash --shims)"
-echo "👉 Setting mise globally:"
-mise use -g tuist
-
-echo "tuist version"
-tuist version
-
-echo "current directory"
-cd repository
-pwd
 
 echo "tuist install"
 tuist install
