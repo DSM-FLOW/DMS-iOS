@@ -1,13 +1,14 @@
 #!/bin/sh
 
-set -e
-echo "dir"
-pwd
-
 cd ../
 git clone https://github.com/team-aliens/DMS-XCConfig.git
 mv DMS-XCConfig/XCConfig/ .
 
+set -e
+echo "dir"
+pwd
+
+cd ..
 echo "dir"
 pwd
 
@@ -26,5 +27,6 @@ echo "tuist install"
 tuist install
 
 echo "tuist generate"
+cd repository
 TUIST_CI=1
 tuist generate
