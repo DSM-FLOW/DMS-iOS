@@ -3,6 +3,7 @@
 pwd
 
 cd ../
+rm -rf XCConfig
 git clone https://github.com/team-aliens/DMS-XCConfig.git
 mv DMS-XCConfig/XCConfig/ .
 
