@@ -23,10 +23,13 @@ mise use -g tuist
 echo "tuist version"
 tuist version
 
+echo "current directory"
+cd repository
+pwd
+
 echo "tuist install"
 tuist install
 
 echo "tuist generate"
-cd repository
 TUIST_CI=1
 tuist generate
