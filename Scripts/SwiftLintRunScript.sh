@@ -11,7 +11,7 @@ echo "Current PATH: $PATH"
 # swiftlint 경로 확인
 SWIFTLINT_PATH=$(which swiftlint)
 echo "SwiftLint Path: $SWIFTLINT_PATH"
-SWIFTLINT_CONFIG_PATH="${SRCROOT%/*}/.swiftlint.yml"
+SWIFTLINT_CONFIG_PATH="${SRCROOT}/.swiftlint.yml"
 echo "SRCROOT Path: ${SWIFTLINT_CONFIG_PATH}"
         
 # SwiftLint 실행
