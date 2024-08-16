@@ -2,14 +2,9 @@
 
 cd ../
 rm -rf XCConfig
-rm -rf Projects/App/Support/Firebase
 git clone https://github.com/team-aliens/DMS-XCConfig.git
 mv DMS-XCConfig/XCConfig/ .
 mv DMS-XCConfig/Firebase Projects/App/Support/
-
-cd Projects/App/Support
-ls
-cd ..
 
 set -e
 
