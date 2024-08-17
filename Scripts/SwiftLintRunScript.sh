@@ -12,7 +12,13 @@ echo "Current PATH: $PATH"
 SWIFTLINT_PATH=$(which swiftlint)
 echo "SwiftLint Path: $SWIFTLINT_PATH"
 SWIFTLINT_CONFIG_PATH="${SRCROOT%/*/*/*}/.swiftlint.yml"
-echo "SRCROOT Path: ${SWIFTLINT_CONFIG_PATH}"
+echo ".swiftlint.yml Path: ${SWIFTLINT_CONFIG_PATH}"
+echo "SRCROOT: ${SRCROOT}"
+echo "SRCROOT/repository: ${SRCROOT}/repository"
+echo "SRCROOT%: ${SRCROOT%}"
+echo "SRCROOT%/*/*/*: ${SRCROOT%/*/*/*}"
+echo "SRCROOT%/*/*: ${SRCROOT%/*/*}"
+echo "SRCROOT%/*: ${SRCROOT%/*}"
         
 # SwiftLint 실행
 if [ -n "$SWIFTLINT_PATH" ]; then
