@@ -7,7 +7,7 @@ let project = Project.makeModule(
     product: .framework,
     targets: [],
     internalDependencies: [
-        .SPM.Needle,
-        .SPM.Kingfisher
+        .external(name: "NeedleFoundation"),
+        .external(name: "Kingfisher")
     ]
 )

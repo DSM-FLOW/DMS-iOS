@@ -17,17 +17,17 @@ let settings: Settings =
               configurations: configurations,
               defaultSettings: .recommended)
 
-let scripts: [TargetScript] = isCI ? [] : [.swiftLint, .widgetNeedle, .needle]
+let scripts: [TargetScript] = isCI ? [] : [.swiftLint, .widgetNeedle, .needle, .googleService]
 let widgetScripts: [TargetScript] = isCI ? [] : [.widgetNeedle]
 
 let targets: [Target] = [
-    .init(
+    .target(
         name: env.targetName,
-        platform: .iOS,
+        destinations: .iOS,
         product: .app,
         productName: env.appName,
         bundleId: "\(env.organizationName).\(env.targetName)",
-        deploymentTarget: env.deploymentTarget,
+        deploymentTargets: env.deploymentTarget,
         infoPlist: .file(path: "Support/Info.plist"),
         sources: ["Sources/**", "AppExtension/Sources/**/*.intentdefinition"],
         resources: ["Resources/**"],
@@ -60,29 +60,30 @@ let targets: [Target] = [
             .Domain.StudentsDomain,
             .Domain.UsersDomain,
             .Domain.NotificationDomain,
+            .external(name: "FirebaseMessaging"),
             .target(name: "\(env.appName)Widget"),
             .target(name: "\(env.appName)WatchApp")
         ],
-        settings: .settings(base: env.baseSetting)
+        settings: .settings(base: env.baseSetting, configurations: configurations)
     ),
-    .init(
+    .target(
         name: env.targetTestName,
-        platform: .iOS,
+        destinations: .iOS,
         product: .unitTests,
         bundleId: "\(env.organizationName).\(env.targetName)Tests",
-        deploymentTarget: env.deploymentTarget,
-        infoPlist: .default,
+        deploymentTargets: env.deploymentTarget,
+        infoPlist: .file(path: "Tests/Support/Tests-Info.plist"),
         sources: ["Tests/**"],
         dependencies: [
             .target(name: env.targetName)
         ]
     ),
-    .init(
+    .target(
         name: "\(env.appName)Widget",
-        platform: .iOS,
+        destinations: .iOS,
         product: .appExtension,
         bundleId: "\(env.organizationName).\(env.targetName).WidgetExtension",
-        deploymentTarget: env.deploymentTarget,
+        deploymentTargets: env.deploymentTarget,
         infoPlist: .file(path: "AppExtension/Support/Widget-Info.plist"),
         sources: ["AppExtension/Sources/**"],
         resources: ["AppExtension/Resources/**"],
@@ -95,69 +96,69 @@ let targets: [Target] = [
             .Shared.DesignSystem
         ]
     ),
-    .init(
+    .target(
         name: "\(env.targetName)WatchApp",
-        platform: .watchOS,
+        destinations: .watchOS,
         product: .app,
         productName: "\(env.appName)WatchApp",
-        bundleId: "\(env.organizationName).\(env.targetName).watchkitapp",
-        deploymentTarget: .watchOS(targetVersion: "7.0"),
+        bundleId: "\(env.organizationName).\(env.targetName).watchapp",
+        deploymentTargets: .watchOS("9.0"),
         infoPlist: .file(path: "WatchApp/Support/Info.plist"),
         sources: ["WatchApp/Sources/**"],
         resources: ["WatchApp/Resources/**"],
         dependencies: [
             .Shared.WatchDesignSystem,
             .Shared.WatchRestAPIModule,
-            .SPM.Swinject
+            .external(name: "Swinject")
         ]
     )
 ]
 
 let schemes: [Scheme] = [
-    .init(
-      name: "\(env.targetName)-DEV",
-      shared: true,
-      buildAction: .buildAction(targets: ["\(env.targetName)"]),
-      testAction: TestAction.targets(
-          ["\(env.targetTestName)"],
-          configuration: .dev,
-          options: TestActionOptions.options(
-              coverage: true,
-              codeCoverageTargets: ["\(env.targetName)"]
-          )
-      ),
-      runAction: .runAction(configuration: .dev),
-      archiveAction: .archiveAction(configuration: .dev),
-      profileAction: .profileAction(configuration: .dev),
-      analyzeAction: .analyzeAction(configuration: .dev)
+    .scheme(
+        name: "\(env.targetName)-DEV",
+        shared: true,
+        buildAction: .buildAction(targets: ["\(env.targetName)"]),
+        testAction: TestAction.targets(
+            ["\(env.targetTestName)"],
+            configuration: .dev,
+            options: TestActionOptions.options(
+                coverage: true,
+                codeCoverageTargets: ["\(env.targetName)"]
+            )
+        ),
+        runAction: .runAction(configuration: .dev),
+        archiveAction: .archiveAction(configuration: .dev),
+        profileAction: .profileAction(configuration: .dev),
+        analyzeAction: .analyzeAction(configuration: .dev)
     ),
-    .init(
-      name: "\(env.targetName)-PROD",
-      shared: true,
-      buildAction: BuildAction(targets: ["\(env.targetName)"]),
-      testAction: nil,
-      runAction: .runAction(configuration: .prod),
-      archiveAction: .archiveAction(configuration: .prod),
-      profileAction: .profileAction(configuration: .prod),
-      analyzeAction: .analyzeAction(configuration: .prod)
+    .scheme(
+        name: "\(env.targetName)-PROD",
+        shared: true,
+        buildAction: .buildAction(targets: ["\(env.targetName)"]),
+        testAction: nil,
+        runAction: .runAction(configuration: .prod),
+        archiveAction: .archiveAction(configuration: .prod),
+        profileAction: .profileAction(configuration: .prod),
+        analyzeAction: .analyzeAction(configuration: .prod)
     ),
-    .init(
-      name: "\(env.targetName)-STAGE",
-      shared: true,
-      buildAction: BuildAction(targets: ["\(env.targetName)"]),
-      testAction: nil,
-      runAction: .runAction(configuration: .stage),
-      archiveAction: .archiveAction(configuration: .stage),
-      profileAction: .profileAction(configuration: .stage),
-      analyzeAction: .analyzeAction(configuration: .stage)
+    .scheme(
+        name: "\(env.targetName)-STAGE",
+        shared: true,
+        buildAction: .buildAction(targets: ["\(env.targetName)"]),
+        testAction: nil,
+        runAction: .runAction(configuration: .stage),
+        archiveAction: .archiveAction(configuration: .stage),
+        profileAction: .profileAction(configuration: .stage),
+        analyzeAction: .analyzeAction(configuration: .stage)
     )
 ]
 
-let project: Project =
-    .init(
-        name: env.targetName,
-        organizationName: env.organizationName,
-        settings: settings,
-        targets: targets,
-        schemes: schemes
-    )
+let project = Project(
+    name: env.targetName,
+    organizationName: env.organizationName,
+    packages: [/*.FirebaseMessaging*/],
+    settings: settings,
+    targets: targets,
+    schemes: schemes
+)

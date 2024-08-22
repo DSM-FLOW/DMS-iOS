@@ -7,8 +7,8 @@ let project = Project.makeModule(
     product: .framework,
     targets: [.unitTest],
     externalDependencies: [
-        .SPM.Moya,
-        .SPM.CombineMoya
+        .external(name: "Moya"),
+        .external(name: "CombineMoya")
     ],
     internalDependencies: [
         .Shared.GlobalThirdPartyLibrary,
