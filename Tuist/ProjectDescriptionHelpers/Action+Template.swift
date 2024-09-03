@@ -18,4 +18,10 @@ public extension TargetScript {
         name: "Widget Needle",
         basedOnDependencyAnalysis: false
     )
+
+    static let googleService = TargetScript.pre(
+        path: .relativeToRoot("Scripts/GoogleServiceScript.sh"),
+        name: "Google Service",
+        basedOnDependencyAnalysis: false
+    )
 }

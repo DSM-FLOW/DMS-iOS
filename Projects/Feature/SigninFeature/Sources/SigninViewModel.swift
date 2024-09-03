@@ -1,6 +1,7 @@
 import BaseFeature
 import Combine
 import AuthDomainInterface
+import FirebaseMessaging
 
 final class SigninViewModel: BaseViewModel {
     @Published var id = ""
@@ -15,7 +16,9 @@ final class SigninViewModel: BaseViewModel {
 
     private let signinUseCase: any SigninUseCase
 
-    public init(signinUseCase: any SigninUseCase) {
+    public init(
+        signinUseCase: any SigninUseCase
+    ) {
         self.signinUseCase = signinUseCase
     }
 
@@ -25,7 +28,8 @@ final class SigninViewModel: BaseViewModel {
             signinUseCase.execute(
                 req: .init(
                     accountID: id,
-                    password: password
+                    password: password,
+                    deviceToken: Messaging.messaging().fcmToken
                 )
             )
         ) { [weak self] feature in
