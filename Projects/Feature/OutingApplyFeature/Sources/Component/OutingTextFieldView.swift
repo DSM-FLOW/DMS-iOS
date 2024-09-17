@@ -25,11 +25,10 @@ struct OutingTextFieldView: View {
                 Text(title)
                     .dmsFont(.body(.body2), color: .GrayScale.gray10)
                     .padding(.leading, 1)
-                    .padding(.bottom, 8)
 
                 if isRequired ?? false {
                     Text("*")
-                        .dmsFont(.body(.body3), color: .PrimaryVariant.primary)
+                        .foregroundColor(.PrimaryVariant.primary)
                 }
             }
 

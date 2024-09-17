@@ -82,7 +82,22 @@ final class OutingApplyViewModel: BaseViewModel {
 
     /// OutingApplication
     @Published var isSuccessOutingApplication = false
-    @Published var outingApplicationDate: String = Date().toOutingApplicationDMSDateString()
+    var outingApplicationDate: Date {
+        let now = Date()
+        let calendar = Calendar.current
+        let changeDateTime = calendar.date(
+            bySettingHour: changeTime.hour!,
+            minute: changeTime.minute!,
+            second: 0, of: now
+        )!
+
+        if now >= changeDateTime {
+            return calendar.date(byAdding: .day, value: 1, to: now) ?? Date()
+        } else {
+            return now
+        }
+    }
+
     var outingApplicationTimeDate: String {
         let outingTime: String = String(format: "%02d:%02d", outingHourSelectTime, outingMinuteSelectTime)
         return outingTime
@@ -199,7 +214,7 @@ final class OutingApplyViewModel: BaseViewModel {
         addCancellable(
             outingApplicationUseCase.execute(
                 req: .init(
-                    date: outingApplicationDate,
+                    date: outingApplicationDate.toSmallDMSDateString(),
                     outingTime: outingApplicationTimeDate,
                     arrivalTime: arrivalApplicationTimeDate,
                     titleType: outingTypeTitleApplication,
@@ -253,7 +268,7 @@ final class OutingApplyViewModel: BaseViewModel {
         )!
 
         if now >= changeDateTime {
-            return calendar.date(byAdding: .day, value: 1, to: now)!
+            return calendar.date(byAdding: .day, value: 1, to: now) ?? Date()
         } else {
             return now
         }

@@ -27,63 +27,65 @@ struct OutingApplyView: View {
             ScrollViewReader { proxy in
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
-                        ForEach(viewModel.outingAvailableTime, id: \.self) { time in
-                            OutingApplyNoticeView(
-                                notice: "외출 신청 시간은 \(viewModel.dateType) \(time.outingTime) ~ "
-                                + "\(viewModel.dateType) \(time.arrivalTime) 까지 입니다."
-                            )
-                        }
+                        OutingApplyNoticeView(
+                            notice: "외출 신청 시간은 저녁 8:00 ~ 오전 11:00 까지 입니다."
+                        )
 
-                        if viewModel.isApplied {
-                            RecentOutingApplyView(
-                                viewModel: viewModel,
-                                date: viewModel.outingDate,
-                                type: viewModel.outingTypeTitle,
-                                isAccepted: false,
-                                startTime: viewModel.startTime,
-                                endTime: viewModel.endTime,
-                                people: viewModel.outingCompanions,
-                                reason: viewModel.outingReason
-                            )
-                        } else {
+//                        if viewModel.isApplied {  이쪽 수정해야됨
+//                            RecentOutingApplyView(
+//                                viewModel: viewModel,
+//                                date: viewModel.outingDate,
+//                                type: viewModel.outingTypeTitle,
+//                                isAccepted: false,
+//                                startTime: viewModel.startTime,
+//                                endTime: viewModel.endTime,
+//                                people: viewModel.outingCompanions,
+//                                reason: viewModel.outingReason
+//                            )
+//                        } else {
                             VStack(alignment: .leading) {
                                 HStack {
                                     Text("' ")
                                         .foregroundColor(.GrayScale.gray10)
                                     + Text("*")
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(.PrimaryVariant.primary)
                                     + Text(" '가 포함 된 필드는 필수로 입력해야 합니다.")
                                         .foregroundColor(.GrayScale.gray10)
                                 }
                                 .dmsFont(.etc(.caption))
                                 .padding(.top, 15)
-                                .padding(.bottom, 12)
+                                .padding(.bottom, 8)
 
                                 HStack {
                                     Text("외출 일자")
                                         .dmsFont(.body(.body2), color: .GrayScale.gray10)
-                                        .padding(.top, 12)
-                                        .padding(.bottom, 12)
+                                        .padding(.top, 8)
+                                        .padding(.bottom, 8)
 
                                     Text(viewModel.displayDate().toDMSOutingApplicationString())
                                         .dmsFont(.body(.body2), color: .GrayScale.gray6)
                                         .padding(.leading, 20)
-                                        .padding(.top, 12)
-                                        .padding(.bottom, 12)
+                                        .padding(.top, 8)
+                                        .padding(.bottom, 8)
                                 }
                                 .onAppear {
                                     viewModel.currentDate = Date()
                                 }
 
                                 OutingTextFieldView("외출 시간", viewModel.outingApplicationTime, $timeText, true)
-                                    .padding(.top, 12)
-                                    .padding(.bottom, 12)
+                                    .padding(.top, 8)
+                                    .padding(.bottom, 8)
                                     .disabled(true)
                                     .onTapGesture {
                                         viewModel.isShowingOutingTimePickerBottomSheet = true
                                     }
 
-                                HStack(spacing: 15) {
+                                ForEach(viewModel.outingAvailableTime, id: \.self) { time in
+                                    Text("외출 가능 시간은 \(time.outingTime) ~ \(time.arrivalTime) 까지 입니다.")
+                                        .dmsFont(.etc(.caption), color: .PrimaryVariant.primary)
+                                }
+
+                                HStack(spacing: 12) {
                                     Menu {
                                         ForEach(viewModel.outingTypeTitles.indices, id: \.self) { index in
                                             Button(viewModel.outingTypeTitles[index], action: {
@@ -93,15 +95,14 @@ struct OutingApplyView: View {
                                             })
                                         }
                                     } label: {
-                                        VStack(alignment: .leading) {
+                                        VStack(alignment: .leading, spacing: 8) {
                                             HStack {
                                                 Text("외출 유형")
                                                     .dmsFont(.body(.body2), color: .GrayScale.gray10)
-                                                    .padding(.bottom, 8)
                                                 Text("*")
-                                                    .foregroundColor(.blue)
-                                                    .padding(.bottom, 4)
+                                                    .foregroundColor(.PrimaryVariant.primary)
                                             }
+                                            .padding(.bottom, 10)
 
                                             HStack {
                                                 Text(typeText)
@@ -112,25 +113,24 @@ struct OutingApplyView: View {
                                                     .foregroundColor(.System.icon)
                                                     .padding(.trailing, 2)
                                             }
-                                            .padding(.horizontal, 16)
-                                            .padding(.vertical, 15)
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 12)
                                             .overlay {
                                                 RoundedRectangle(cornerRadius: 4)
                                                     .stroke(Color.GrayScale.gray5, lineWidth: 1)
-                                                    .frame(height: 50)
+                                                    .frame(height: 53)
                                             }
                                         }
                                     }
 
                                     OutingTextFieldView("동행인", "동행인 추가 ﹢ ", $selectStudentsText, false)
-                                        .padding(.horizontal, 10)
-                                        .padding(.vertical, 12)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 8)
                                         .disabled(true)
                                         .onTapGesture {
                                             viewModel.isShowingBottomSheet = true
                                         }
                                 }
-                                .padding(.top, 12)
 
                                 VStack(alignment: .leading) {
                                     Text("외출 사유")
@@ -166,7 +166,7 @@ struct OutingApplyView: View {
                                 .padding(.bottom, 70)
                             }
                             .padding(.horizontal, 24)
-                        }
+//                        }
                     }
 
                     if inFocus == 2 {
