@@ -146,4 +146,7 @@ public extension AppComponent {
     var outingApplyFactory: any OutingApplyFactory {
         OutingApplyComponent(parent: self)
     }
+    var outingCheckFactory: any OutingCheckFactory {
+        OutingCheckComponent(parent: self)
+    }
 }

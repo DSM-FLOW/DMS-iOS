@@ -2,7 +2,7 @@ import DesignSystem
 import SwiftUI
 
 struct RecentOutingApplyView: View {
-    @StateObject var viewModel: OutingApplyViewModel
+    @StateObject var viewModel: OutingCheckViewModel
     @Environment(\.dismiss) private var dismiss
     let date: String
     let type: String

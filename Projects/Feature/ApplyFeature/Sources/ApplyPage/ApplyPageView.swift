@@ -12,18 +12,18 @@ struct ApplyPageView: View {
 
     private let studyRoomListFactory: any StudyRoomListFactory
     private let remainApplyFactory: any RemainApplyFactory
-    private let outingApplyFactory: any OutingApplyFactory
+    private let outingCheckFactory: any OutingCheckFactory
 
     init(
         viewModel: ApplyPageViewModel,
         studyRoomListFactory: any StudyRoomListFactory,
         remainApplyFactory: any RemainApplyFactory,
-        outingApplyFactory: any OutingApplyFactory
+        outingCheckFactory: any OutingCheckFactory
     ) {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.studyRoomListFactory = studyRoomListFactory
         self.remainApplyFactory = remainApplyFactory
-        self.outingApplyFactory = outingApplyFactory
+        self.outingCheckFactory = outingCheckFactory
     }
 
     var body: some View {
@@ -119,7 +119,7 @@ struct ApplyPageView: View {
                 when: $viewModel.isNavigateToRemain
             )
             .navigate(
-                to: outingApplyFactory.makeView().eraseToAnyView(),
+                to: outingCheckFactory.makeView().eraseToAnyView(),
                 when: $viewModel.isNavigateToOuting
             )
         }

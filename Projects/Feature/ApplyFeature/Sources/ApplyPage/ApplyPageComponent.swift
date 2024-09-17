@@ -11,7 +11,7 @@ import ApplyFeatureInterface
 public protocol ApplyPageDependency: Dependency {
     var studyRoomListFactory: any StudyRoomListFactory { get }
     var remainApplyFactory: any RemainApplyFactory { get }
-    var outingApplyFactory: any OutingApplyFactory { get }
+    var outingCheckFactory: any OutingCheckFactory { get }
     var fetchMyRemainApplicationItemsUseCase: any FetchMyRemainApplicationItemsUseCase { get }
     var fetchMyStudyRoomAppItemsUseCase: any FetchMyStudyRoomAppItemsUseCase { get }
 }
@@ -24,7 +24,7 @@ public final class ApplyPageComponent: Component<ApplyPageDependency>, ApplyPage
                 fetchMyStudyRoomAppItemsUseCase: self.dependency.fetchMyStudyRoomAppItemsUseCase),
             studyRoomListFactory: dependency.studyRoomListFactory,
             remainApplyFactory: dependency.remainApplyFactory,
-            outingApplyFactory: dependency.outingApplyFactory
+            outingCheckFactory: dependency.outingCheckFactory
         )
     }
 }
