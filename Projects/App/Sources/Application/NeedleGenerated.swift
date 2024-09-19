@@ -456,8 +456,8 @@ private class ApplyPageDependency3fe4e7c221b14c86d427Provider: ApplyPageDependen
     var remainApplyFactory: any RemainApplyFactory {
         return appComponent.remainApplyFactory
     }
-    var outingApplyFactory: any OutingApplyFactory {
-        return appComponent.outingApplyFactory
+    var outingCheckFactory: any OutingCheckFactory {
+        return appComponent.outingCheckFactory
     }
     var fetchMyRemainApplicationItemsUseCase: any FetchMyRemainApplicationItemsUseCase {
         return appComponent.fetchMyRemainApplicationItemsUseCase
@@ -573,18 +573,31 @@ private class NoticeDetailDependency714af3aed40eaebda420Provider: NoticeDetailDe
 private func factory3db143c2f80d621d5a7ff47b58f8f304c97af4d5(_ component: NeedleFoundation.Scope) -> AnyObject {
     return NoticeDetailDependency714af3aed40eaebda420Provider(appComponent: parent1(component) as! AppComponent)
 }
-private class OutingApplyDependency9697a35706d45fe3b1a6Provider: OutingApplyDependency {
+private class OutingCheckDependency591e8e88076d3b14912fProvider: OutingCheckDependency {
+    var outingApplyFactory: any OutingApplyFactory {
+        return appComponent.outingApplyFactory
+    }
     var fetchMyOutingApplicationItemUseCase: any FetchMyOutingApplicationItemUseCase {
         return appComponent.fetchMyOutingApplicationItemUseCase
     }
+    var deleteOutingApplicationItemUseCase: any DeleteOutingApplicationItemUseCase {
+        return appComponent.deleteOutingApplicationItemUseCase
+    }
+    private let appComponent: AppComponent
+    init(appComponent: AppComponent) {
+        self.appComponent = appComponent
+    }
+}
+/// ^->AppComponent->OutingCheckComponent
+private func factorydd9d68d4ee2860760687f47b58f8f304c97af4d5(_ component: NeedleFoundation.Scope) -> AnyObject {
+    return OutingCheckDependency591e8e88076d3b14912fProvider(appComponent: parent1(component) as! AppComponent)
+}
+private class OutingApplyDependency9697a35706d45fe3b1a6Provider: OutingApplyDependency {
     var fetchOutingAvailableTimeUseCase: any FetchOutingAvailableTimeUseCase {
         return appComponent.fetchOutingAvailableTimeUseCase
     }
     var fetchOutingTypeUseCase: any FetchOutingTypeUseCase {
         return appComponent.fetchOutingTypeUseCase
-    }
-    var deleteOutingApplicationItemUseCase: any DeleteOutingApplicationItemUseCase {
-        return appComponent.deleteOutingApplicationItemUseCase
     }
     var fetchAllStudentsUseCase: any FetchAllStudentsUseCase {
         return appComponent.fetchAllStudentsUseCase
@@ -678,6 +691,7 @@ extension AppComponent: Registration {
         localTable["applyPageFactory-any ApplyPageFactory"] = { [unowned self] in self.applyPageFactory as Any }
         localTable["remainApplyFactory-any RemainApplyFactory"] = { [unowned self] in self.remainApplyFactory as Any }
         localTable["outingApplyFactory-any OutingApplyFactory"] = { [unowned self] in self.outingApplyFactory as Any }
+        localTable["outingCheckFactory-any OutingCheckFactory"] = { [unowned self] in self.outingCheckFactory as Any }
         localTable["remoteNoticeDataSource-any RemoteNoticeDataSource"] = { [unowned self] in self.remoteNoticeDataSource as Any }
         localTable["noticeRepository-any NoticeRepository"] = { [unowned self] in self.noticeRepository as Any }
         localTable["fetchWhetherNewNoticeUseCase-any FetchWhetherNewNoticeUseCase"] = { [unowned self] in self.fetchWhetherNewNoticeUseCase as Any }
@@ -874,7 +888,7 @@ extension ApplyPageComponent: Registration {
     public func registerItems() {
         keyPathToName[\ApplyPageDependency.studyRoomListFactory] = "studyRoomListFactory-any StudyRoomListFactory"
         keyPathToName[\ApplyPageDependency.remainApplyFactory] = "remainApplyFactory-any RemainApplyFactory"
-        keyPathToName[\ApplyPageDependency.outingApplyFactory] = "outingApplyFactory-any OutingApplyFactory"
+        keyPathToName[\ApplyPageDependency.outingCheckFactory] = "outingCheckFactory-any OutingCheckFactory"
         keyPathToName[\ApplyPageDependency.fetchMyRemainApplicationItemsUseCase] = "fetchMyRemainApplicationItemsUseCase-any FetchMyRemainApplicationItemsUseCase"
         keyPathToName[\ApplyPageDependency.fetchMyStudyRoomAppItemsUseCase] = "fetchMyStudyRoomAppItemsUseCase-any FetchMyStudyRoomAppItemsUseCase"
     }
@@ -916,12 +930,17 @@ extension NoticeDetailComponent: Registration {
         keyPathToName[\NoticeDetailDependency.fetchDetailNoticeUseCase] = "fetchDetailNoticeUseCase-any FetchDetailNoticeUseCase"
     }
 }
+extension OutingCheckComponent: Registration {
+    public func registerItems() {
+        keyPathToName[\OutingCheckDependency.outingApplyFactory] = "outingApplyFactory-any OutingApplyFactory"
+        keyPathToName[\OutingCheckDependency.fetchMyOutingApplicationItemUseCase] = "fetchMyOutingApplicationItemUseCase-any FetchMyOutingApplicationItemUseCase"
+        keyPathToName[\OutingCheckDependency.deleteOutingApplicationItemUseCase] = "deleteOutingApplicationItemUseCase-any DeleteOutingApplicationItemUseCase"
+    }
+}
 extension OutingApplyComponent: Registration {
     public func registerItems() {
-        keyPathToName[\OutingApplyDependency.fetchMyOutingApplicationItemUseCase] = "fetchMyOutingApplicationItemUseCase-any FetchMyOutingApplicationItemUseCase"
         keyPathToName[\OutingApplyDependency.fetchOutingAvailableTimeUseCase] = "fetchOutingAvailableTimeUseCase-any FetchOutingAvailableTimeUseCase"
         keyPathToName[\OutingApplyDependency.fetchOutingTypeUseCase] = "fetchOutingTypeUseCase-any FetchOutingTypeUseCase"
-        keyPathToName[\OutingApplyDependency.deleteOutingApplicationItemUseCase] = "deleteOutingApplicationItemUseCase-any DeleteOutingApplicationItemUseCase"
         keyPathToName[\OutingApplyDependency.fetchAllStudentsUseCase] = "fetchAllStudentsUseCase-any FetchAllStudentsUseCase"
         keyPathToName[\OutingApplyDependency.outingApplicationUseCase] = "outingApplicationUseCase-any OutingApplicationUseCase"
     }
@@ -977,6 +996,7 @@ private func registerProviderFactory(_ componentPath: String, _ factory: @escapi
     registerProviderFactory("^->AppComponent->RemainApplyComponent", factory9615846346c92a2f8176f47b58f8f304c97af4d5)
     registerProviderFactory("^->AppComponent->NoticeListComponent", factorye14e687c08985bdffcd0f47b58f8f304c97af4d5)
     registerProviderFactory("^->AppComponent->NoticeDetailComponent", factory3db143c2f80d621d5a7ff47b58f8f304c97af4d5)
+    registerProviderFactory("^->AppComponent->OutingCheckComponent", factorydd9d68d4ee2860760687f47b58f8f304c97af4d5)
     registerProviderFactory("^->AppComponent->OutingApplyComponent", factory7be30f25c2431cde1fd8f47b58f8f304c97af4d5)
     registerProviderFactory("^->AppComponent->FindIDComponent", factory8dd2f9e0b545ead35ecaf47b58f8f304c97af4d5)
 }
