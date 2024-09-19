@@ -5,9 +5,9 @@ import SwiftUI
 
 final class OutingCheckViewModel: BaseViewModel {
     @Published var isPresentedDeleteOutingItemAlert = false
-    @Published var isPresentedOutingItemAlert = false
 
     @Published var isApplied = false
+    @Published var isHidden = false
     @Published var isShowingErrorToast = false
     @Published var isShowingToast = false
     @Published var toastMessage = ""
@@ -21,7 +21,7 @@ final class OutingCheckViewModel: BaseViewModel {
     @Published var outingReason = ""
     @Published var outingId = ""
 
-    @Published var isSuccessOutingApplication = false
+    @Published var outingApplyButtonDidTap = false
 
     private let fetchMyOutingApplicationItemUseCase: any FetchMyOutingApplicationItemUseCase
     private let deleteOutingApplicationItemUseCase: any DeleteOutingApplicationItemUseCase
@@ -53,6 +53,7 @@ final class OutingCheckViewModel: BaseViewModel {
 
             if myOutingApplicationItem.status == "APPROVED" {
                 self?.isApplied = true
+                self?.isHidden = true
             } else {
                 self?.isApplied = false
             }
@@ -67,9 +68,22 @@ final class OutingCheckViewModel: BaseViewModel {
         addCancellable(
             deleteOutingApplicationItemUseCase.execute(id: outingId)
         ) { [weak self] _ in
-            self?.isSuccessOutingApplication = true
             self?.toastMessage = "외출 신청이 취소되었습니다."
             self?.isShowingToast = true
+        }
+    }
+
+    func checkButtonState() {
+        let now = Date()
+        let calendar = Calendar.current
+
+        let hour = calendar.component(.hour, from: now)
+        let minute = calendar.component(.minute, from: now)
+
+        if (hour == 20 && minute >= 0) || (hour >= 21 && hour < 24) || (hour < 11) {
+            isHidden = false
+        } else {
+            isHidden = true
         }
     }
 }
