@@ -5,7 +5,6 @@ import BaseFeature
 import SwiftUI
 
 final class OutingApplyViewModel: BaseViewModel {
-    @Published var isPresentedDeleteOutingItemAlert = false
     @Published var isPresentedOutingItemAlert = false
 
     /// 필수 사항 Status
@@ -22,7 +21,7 @@ final class OutingApplyViewModel: BaseViewModel {
     }
 
     @State var currentDate: Date = Date()
-    let changeTime: DateComponents = DateComponents(hour: 18, minute: 0)
+    let changeTime: DateComponents = DateComponents(hour: 13, minute: 0)
 
     /// AvailableTime
     @Published var outingAvailableTime: [OutingEntity] = []
@@ -51,38 +50,39 @@ final class OutingApplyViewModel: BaseViewModel {
             }
         }
 
-    /// MyOutingApplicationItem
-    @Published var outingTypeTitle = ""
-    @Published var outingDate = ""
-    @Published var startTime = ""
-    @Published var endTime = ""
-    @Published var outingCompanions = ""
-    @Published var outingReason = ""
-    @Published var outingId = ""
-
-    // fetchOutingTypeUseCase
+    /// fetchOutingTypeUseCase
     @Published var outingTypeTitles: [String] = []
 
-    // fetchAllStudentUseCase
+    /// fetchAllStudentUseCase
     @Published var studentName = ""
     @Published var students: [StudentEntity] = []
     @Published var selectStudent: [StudentEntity] = []
     @Published var selectedStudentString: [String] = []
 
-    @Published var myOutingApplicationItem: MyOutingApplicationItemEntity?
-    @Published var outingType: OutingTypeEntity?
-
-    @Published var isShowingErrorToast = false
+    /// toast
     @Published var isShowingToast = false
     @Published var toastMessage = ""
 
-    @Published var isApplied = false
     @Published var isShowingBottomSheet: Bool = false
     @Published var isShowingOutingTimePickerBottomSheet: Bool = false
 
     /// OutingApplication
-    @Published var isSuccessOutingApplication = false
-    @Published var outingApplicationDate: String = Date().toOutingApplicationDMSDateString()
+    var outingApplicationDate: Date {
+        let now = Date()
+        let calendar = Calendar.current
+        let changeDateTime = calendar.date(
+            bySettingHour: changeTime.hour!,
+            minute: changeTime.minute!,
+            second: 0, of: now
+        )!
+
+        if now >= changeDateTime {
+            return calendar.date(byAdding: .day, value: 1, to: now) ?? Date()
+        } else {
+            return now
+        }
+    }
+
     var outingApplicationTimeDate: String {
         let outingTime: String = String(format: "%02d:%02d", outingHourSelectTime, outingMinuteSelectTime)
         return outingTime
@@ -108,24 +108,18 @@ final class OutingApplyViewModel: BaseViewModel {
     }
 
     private let fetchOutingAvailableTimeUseCase: any FetchOutingAvailableTimeUseCase
-    private let fetchMyOutingApplicationItemUseCase: any FetchMyOutingApplicationItemUseCase
     private let fetchOutingTypeUseCase: any FetchOutingTypeUseCase
-    private let deleteOutingApplicationItemUseCase: any DeleteOutingApplicationItemUseCase
     private let fetchAllStudentsUseCase: any FetchAllStudentsUseCase
     private let outingApplicationUseCase: any OutingApplicationUseCase
 
     init(
         fetchOutingAvailableTimeUseCase: any FetchOutingAvailableTimeUseCase,
-        fetchMyOutingApplicationItemUseCase: any FetchMyOutingApplicationItemUseCase,
         fetchOutingTypeUseCase: any FetchOutingTypeUseCase,
-        deleteOutingApplicationItemUseCase: any DeleteOutingApplicationItemUseCase,
         fetchAllStudentsUseCase: any FetchAllStudentsUseCase,
         outingApplicationUseCase: any OutingApplicationUseCase
     ) {
         self.fetchOutingAvailableTimeUseCase = fetchOutingAvailableTimeUseCase
-        self.fetchMyOutingApplicationItemUseCase = fetchMyOutingApplicationItemUseCase
         self.fetchOutingTypeUseCase = fetchOutingTypeUseCase
-        self.deleteOutingApplicationItemUseCase = deleteOutingApplicationItemUseCase
         self.fetchAllStudentsUseCase = fetchAllStudentsUseCase
         self.outingApplicationUseCase = outingApplicationUseCase
     }
@@ -137,29 +131,6 @@ final class OutingApplyViewModel: BaseViewModel {
             )
         ) { [weak self] outingAvailableTime in
             self?.outingAvailableTime = outingAvailableTime
-        }
-
-        addCancellable(
-            fetchMyOutingApplicationItemUseCase.execute()
-        ) { [weak self] myOutingApplicationItem in
-            var string: String?
-            myOutingApplicationItem.companions.forEach {
-                string = (string ?? "") + $0 + ","
-            }
-
-            self?.outingId = "\(myOutingApplicationItem.id)"
-            self?.outingTypeTitle = myOutingApplicationItem.titleType
-            self?.outingDate = "\(myOutingApplicationItem.date)"
-            self?.startTime = myOutingApplicationItem.outingTime
-            self?.endTime = myOutingApplicationItem.arrivalTime
-            self?.outingCompanions = string ?? ""
-            self?.outingReason = myOutingApplicationItem.reason ?? "없음"
-
-            if myOutingApplicationItem.status == "APPROVED" {
-                self?.isApplied = true
-            } else {
-                self?.isApplied = false
-            }
         }
 
         addCancellable(
@@ -177,20 +148,6 @@ final class OutingApplyViewModel: BaseViewModel {
         }
     }
 
-    func deleteOutingApplicationItemButtonDidClicked() {
-        isPresentedDeleteOutingItemAlert = true
-    }
-
-    func confirmDeleteOutingApplicationItemButtonDidClicked() {
-        addCancellable(
-            deleteOutingApplicationItemUseCase.execute(id: outingId)
-        ) { [weak self] _ in
-            self?.isSuccessOutingApplication = true
-            self?.toastMessage = "외출 신청이 취소되었습니다."
-            self?.isShowingToast = true
-        }
-    }
-
     func outingApplicationItemButtonDidClicked() {
         isPresentedOutingItemAlert = true
     }
@@ -199,7 +156,7 @@ final class OutingApplyViewModel: BaseViewModel {
         addCancellable(
             outingApplicationUseCase.execute(
                 req: .init(
-                    date: outingApplicationDate,
+                    date: outingApplicationDate.toSmallDMSDateString(),
                     outingTime: outingApplicationTimeDate,
                     arrivalTime: arrivalApplicationTimeDate,
                     titleType: outingTypeTitleApplication,
@@ -208,7 +165,6 @@ final class OutingApplyViewModel: BaseViewModel {
                 )
             )
         ) { [weak self] _ in
-            self?.isSuccessOutingApplication = true
             self?.toastMessage = "외출 신청이 완료되었습니다.\n사감선생님께서 승인하면 외출증이 출력됩니다."
             self?.isShowingToast = true
         }
@@ -253,7 +209,7 @@ final class OutingApplyViewModel: BaseViewModel {
         )!
 
         if now >= changeDateTime {
-            return calendar.date(byAdding: .day, value: 1, to: now)!
+            return calendar.date(byAdding: .day, value: 1, to: now) ?? Date()
         } else {
             return now
         }

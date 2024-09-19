@@ -2,7 +2,7 @@ import DesignSystem
 import SwiftUI
 
 struct RecentOutingApplyView: View {
-    @StateObject var viewModel: OutingApplyViewModel
+    @StateObject var viewModel: OutingCheckViewModel
     @Environment(\.dismiss) private var dismiss
     let date: String
     let type: String
@@ -14,11 +14,6 @@ struct RecentOutingApplyView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("최근 내역")
-                .dmsFont(.body(.body2), color: .GrayScale.gray5)
-                .padding(.top, 5)
-                .padding(.bottom, 10)
-
             ZStack(alignment: .topTrailing) {
                 HStack {
                     VStack(alignment: .leading) {
@@ -37,16 +32,23 @@ struct RecentOutingApplyView: View {
                             Text("동행자 : ")
                                 .dmsFont(.etc(.button), color: .GrayScale.gray7)
 
-                            Text(people)
-                                .dmsFont(.body(.body3), color: .GrayScale.gray7)
+                            if people == "" {
+                                Text("없음")
+                                    .dmsFont(.body(.body3), color: .GrayScale.gray7)
+                            } else {
+                                Text(people)
+                                    .dmsFont(.body(.body3), color: .GrayScale.gray7)
+                            }
                         }
 
-                        Text(reason)
-                            .dmsFont(.body(.body3), color: .GrayScale.gray6)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 16)
-                            .background(Color.GrayScale.gray2)
-                            .cornerRadius(10)
+                        if reason != "" {
+                            Text(reason)
+                                .dmsFont(.body(.body3), color: .GrayScale.gray6)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 16)
+                                .background(Color.GrayScale.gray2)
+                                .cornerRadius(10)
+                        }
                     }
 
                     Spacer()
@@ -55,6 +57,7 @@ struct RecentOutingApplyView: View {
                         DMSButton(text: "외출 취소", style: .underline, color: .red) {
                             viewModel.deleteOutingApplicationItemButtonDidClicked()
                         }
+                        .disabled(false)
 
                         Spacer()
 
@@ -64,13 +67,13 @@ struct RecentOutingApplyView: View {
                     Button("취소", role: .cancel) {}
                     Button("확인", role: .destructive) {
                         viewModel.confirmDeleteOutingApplicationItemButtonDidClicked()
+                        print("확인 눌렀으니까 dismiss 되라고!!!")
                         dismiss()
                     }
                 } message: {
                     Text("외출 신청을 취소하시겠습니까?")
                         .dmsFont(.body(.body2), color: .GrayScale.gray6)
                 }
-                .dmsToast(isShowing: $viewModel.isErrorOcuured, message: viewModel.errorMessage, style: .error)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(20)
